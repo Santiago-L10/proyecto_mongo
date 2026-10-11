@@ -37,14 +37,14 @@ class Cirugia(models.Model):
 class AntecedentesClinicos(models.Model):
 
     class TipoSangre(models.TextChoices):
-        A_POS = "A+"
-        A_NEG = "A-"
-        B_POS = "B+"
-        B_NEG = "B-"
-        AB_POS = "AB+"
-        AB_NEG = "AB-"
-        O_POS = "O+"
-        O_NEG = "O-"
+        A_POS = "A+", "A+"
+        A_NEG = "A-", "A-"
+        B_POS = "B+", "B+"
+        B_NEG = "B-", "B-"
+        AB_POS = "AB+", "AB+"
+        AB_NEG = "AB-", "AB-"
+        O_POS = "O+", "O+"
+        O_NEG = "O-", "O-"
 
     tipo_sangre = models.CharField(max_length=3, choices=TipoSangre.choices)
     alergias = models.JSONField(default=list)
@@ -63,10 +63,6 @@ class User(models.Model):
         SI = "SI", "Sí"
         NO = "NO", "No"
 
-    id_user = models.CharField(
-        max_length=50,
-        unique=True,
-    )
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)

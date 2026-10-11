@@ -1,0 +1,110 @@
+{% extends "usuarios/base.html" %}
+
+{% block titulo %}Registrar usuario{% endblock %}
+
+{% block contenido %}
+<div class="barra-titulo">
+  <h2>Registrar usuario</h2>
+  <a class="boton boton--secundario" href="{% url 'usuarios:usuario_crear' %}">Cambiar rol</a>
+</div>
+
+<p class="subtitulo">Paso 2: completa los datos. Rol seleccionado: <span class="etiqueta">{{ rol_display }}</span></p>
+
+<form method="post" class="formulario">
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="error">{{ form.non_field_errors }}</div>
+  {% endif %}
+
+  <div class="campo">
+    <label>Nombres</label>
+    {{ form.first_name }}
+    {{ form.first_name.errors }}
+  </div>
+
+  <div class="campo">
+    <label>Apellidos</label>
+    {{ form.last_name }}
+    {{ form.last_name.errors }}
+  </div>
+
+  <div class="campo">
+    <label>Correo</label>
+    {{ form.email }}
+    {{ form.email.errors }}
+  </div>
+
+  <div class="campo">
+    <label>Teléfono</label>
+    {{ form.telefono }}
+    {{ form.telefono.errors }}
+  </div>
+
+  <div class="campo">
+    <label>Contraseña</label>
+    {{ form.password }}
+    {{ form.password.errors }}
+  </div>
+
+  {% if seccion == "datos_profesionales" %}
+    <div class="seccion-formulario">
+      <h3>Datos profesionales</h3>
+      <div class="campo">
+        <label>Especialidad</label>
+        {{ form.especialidad }}
+        {{ form.especialidad.errors }}
+      </div>
+      <div class="campo">
+        <label>Registro médico</label>
+        {{ form.registro_medico }}
+        {{ form.registro_medico.errors }}
+      </div>
+    </div>
+  {% elif seccion == "antecedentes_clinicos" %}
+    <div class="seccion-formulario">
+      <h3>Antecedentes clínicos</h3>
+      <div class="campo">
+        <label>Tipo de sangre</label>
+        {{ form.tipo_sangre }}
+        {{ form.tipo_sangre.errors }}
+      </div>
+      <div class="campo">
+        <label>Alergias</label>
+        {{ form.alergias }}
+        {{ form.alergias.errors }}
+      </div>
+      <div class="campo">
+        <label>Condiciones crónicas</label>
+        {{ form.condiciones_cronicas }}
+        {{ form.condiciones_cronicas.errors }}
+      </div>
+      <div class="campo">
+        <label>Procedimiento</label>
+        {{ form.cirugia_procedimiento }}
+        {{ form.cirugia_procedimiento.errors }}
+      </div>
+      <div class="campo">
+        <label>Año</label>
+        {{ form.cirugia_year }}
+        {{ form.cirugia_year.errors }}
+      </div>
+      <div class="campo">
+        <label>Hospital</label>
+        {{ form.cirugia_hospital }}
+        {{ form.cirugia_hospital.errors }}
+      </div>
+      <div class="campo">
+        <label>Historial familiar</label>
+        {{ form.historial_familiar }}
+        {{ form.historial_familiar.errors }}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="acciones-formulario">
+    <button type="submit" class="boton boton--primario">Guardar</button>
+    <a class="boton boton--secundario" href="{% url 'usuarios:usuario_crear' %}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

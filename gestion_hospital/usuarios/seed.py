@@ -10,7 +10,7 @@ DESCRIPCIONES = {
 
 
 def crear_roles_iniciales(sender, **kwargs):
-    for codigo in models.Rol.Nombre.choices:
+    for codigo, etiqueta in models.Rol.Nombre.choices:
         models.Perfil.objects.get_or_create(
             nombre=codigo,
             defaults={

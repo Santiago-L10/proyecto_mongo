@@ -1,0 +1,27 @@
+{% extends "usuarios/base.html" %}
+
+{% block titulo %}Registrar usuario{% endblock %}
+
+{% block contenido %}
+<div class="barra-titulo">
+  <h2>Registrar usuario</h2>
+  <a class="boton boton--secundario" href="{% url 'usuarios:panel_home' %}">Volver</a>
+</div>
+
+<p class="subtitulo">Paso 1: selecciona el rol del usuario.</p>
+
+<form method="post" class="formulario">
+  {% csrf_token %}
+
+  <div class="campo">
+    <label>Rol</label>
+    {{ form.rol }}
+    {{ form.rol.errors }}
+  </div>
+
+  <div class="acciones-formulario">
+    <button type="submit" class="boton boton--primario">Continuar</button>
+    <a class="boton boton--secundario" href="{% url 'usuarios:panel_home' %}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

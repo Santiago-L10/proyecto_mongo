@@ -16,6 +16,14 @@ MODULOS_POR_ROL = {
     "RECEPCIONISTA": ["citas", "facturacion"],
 }
 
+# Qué sección de datos extra se llena según el rol al registrar un usuario.
+# Los roles que no aparezcan aquí no piden datos adicionales.
+SECCION_POR_ROL = {
+    "DOCTOR": "datos_profesionales",
+    "FARMACEUTICO": "datos_profesionales",
+    "PACIENTE": "antecedentes_clinicos",
+}
+
 # Lista de modulos por rol
 def modulos_de(nombre_rol):
     return MODULOS_POR_ROL.get(nombre_rol, [])
@@ -27,4 +35,7 @@ def puede_acceder(nombre_rol, modulo):
 
 def nombres_modulos(codigos):
     """Convierte códigos de módulo en sus nombres visibles."""
-    return [MODULOS.get(codigo, codigo) for codigo in codigos]
+    nombres = []
+    for codigo in codigos:
+        nombres.append(MODULOS.get(codigo, codigo))
+    return nombres

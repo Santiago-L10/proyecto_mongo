@@ -98,6 +98,22 @@ h2 {
   margin-top: 0;
 }
 
+.acciones-panel {
+  margin: 18px 0 4px;
+}
+
+.seccion-formulario {
+  border-top: 1px solid var(--gris-300);
+  margin-top: 22px;
+  padding-top: 16px;
+}
+
+.seccion-formulario h3 {
+  margin: 0 0 14px;
+  color: var(--azul-oscuro);
+  font-size: 1rem;
+}
+
 .barra-titulo {
   display: flex;
   align-items: center;
