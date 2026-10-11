@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Panel de Administración{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'usuarios/panel.css' %}">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor cabecera__interior">
+      <span class="logo">Gestión Hospitalaria</span>
+      <nav class="menu">
+        <a href="{% url 'usuarios:panel_home' %}">Panel</a>
+        <a href="{% url 'usuarios:perfil_lista' %}">Perfiles</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="contenedor contenido">
+    {% if messages %}
+      <ul class="mensajes">
+        {% for mensaje in messages %}
+          <li class="mensaje mensaje--{{ mensaje.tags }}">{{ mensaje }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% block contenido %}{% endblock %}
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">Módulo de Usuarios</div>
+  </footer>
+</body>
+</html>

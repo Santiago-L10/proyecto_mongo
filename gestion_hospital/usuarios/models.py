@@ -10,7 +10,6 @@ class Rol(models.Model):
         RECEPCIONISTA = "RECEPCIONISTA", "Recepcionista"
 
     nombre = models.CharField(max_length=20, choices=Nombre.choices)
-    permisos = models.JSONField(default=list)
 
     class Meta:
         abstract = True
@@ -115,3 +114,23 @@ class Log(models.Model):
 
     class Meta:
         db_table = "Logs"
+
+
+class Perfil(models.Model):
+    """Rol del sistema. Los roles son fijos y determinan a qué módulos
+    puede entrar un usuario (el mapa de módulos vive en ``usuarios/acceso.py``)."""
+
+    nombre = models.CharField(
+        max_length=20,
+        choices=Rol.Nombre.choices,
+        unique=True,
+    )
+    descripcion = models.TextField(blank=True)
+    activo = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "perfiles"
+        ordering = ["nombre"]
+
+    def __str__(self):
+        return self.get_nombre_display()

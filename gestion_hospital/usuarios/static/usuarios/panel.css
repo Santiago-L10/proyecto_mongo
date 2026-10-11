@@ -1,0 +1,427 @@
+:root {
+  --azul: #2563eb;
+  --azul-oscuro: #1e40af;
+  --azul-claro: #eff6ff;
+  --gris-900: #1f2937;
+  --gris-700: #374151;
+  --gris-500: #6b7280;
+  --gris-300: #d1d5db;
+  --gris-100: #f3f4f6;
+  --blanco: #ffffff;
+  --rojo: #dc2626;
+  --rojo-claro: #fef2f2;
+  --verde: #16a34a;
+  --verde-claro: #f0fdf4;
+  --radio: 8px;
+  --sombra: 0 1px 3px rgba(31, 41, 55, 0.12), 0 1px 2px rgba(31, 41, 55, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--gris-100);
+  color: var(--gris-900);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--azul);
+}
+
+.contenedor {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Cabecera ---------------------------------------------------------------- */
+
+.cabecera {
+  background: var(--azul);
+  color: var(--blanco);
+  box-shadow: var(--sombra);
+}
+
+.cabecera__interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.3px;
+}
+
+.menu {
+  display: flex;
+  gap: 8px;
+}
+
+.menu a {
+  color: var(--blanco);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: var(--radio);
+  font-size: 0.95rem;
+  transition: background 0.15s ease;
+}
+
+.menu a:hover {
+  background: var(--azul-oscuro);
+}
+
+/* Contenido --------------------------------------------------------------- */
+
+.contenido {
+  flex: 1;
+  padding-top: 28px;
+  padding-bottom: 40px;
+}
+
+h2 {
+  margin: 0 0 6px;
+  color: var(--gris-900);
+}
+
+.subtitulo {
+  color: var(--gris-500);
+  margin-top: 0;
+}
+
+.barra-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Tarjetas del panel ------------------------------------------------------ */
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.tarjeta {
+  background: var(--blanco);
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio);
+  padding: 24px;
+  text-decoration: none;
+  color: var(--gris-900);
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-left: 4px solid var(--azul);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.tarjeta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(31, 41, 55, 0.15);
+}
+
+.tarjeta__numero {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--azul);
+}
+
+.tarjeta__texto {
+  color: var(--gris-500);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.6px;
+}
+
+/* Tablas ------------------------------------------------------------------ */
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--blanco);
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+
+.tabla th,
+.tabla td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--gris-100);
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+.tabla th {
+  background: var(--azul-claro);
+  color: var(--azul-oscuro);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.tabla tbody tr:hover {
+  background: var(--gris-100);
+}
+
+.tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.col-acciones {
+  white-space: nowrap;
+  text-align: right;
+}
+
+code {
+  background: var(--gris-100);
+  border: 1px solid var(--gris-300);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.85rem;
+  color: var(--azul-oscuro);
+}
+
+/* Botones ----------------------------------------------------------------- */
+
+.boton {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: var(--radio);
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.boton--primario {
+  background: var(--azul);
+  color: var(--blanco);
+}
+
+.boton--primario:hover {
+  background: var(--azul-oscuro);
+}
+
+.boton--secundario {
+  background: var(--blanco);
+  color: var(--gris-700);
+  border-color: var(--gris-300);
+}
+
+.boton--secundario:hover {
+  background: var(--gris-100);
+}
+
+.boton--peligro {
+  background: var(--blanco);
+  color: var(--rojo);
+  border-color: var(--rojo);
+}
+
+.boton--peligro:hover {
+  background: var(--rojo-claro);
+}
+
+/* Estados ----------------------------------------------------------------- */
+
+.estado {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.estado--activo {
+  background: var(--verde-claro);
+  color: var(--verde);
+}
+
+.estado--inactivo {
+  background: var(--gris-100);
+  color: var(--gris-500);
+}
+
+.etiqueta {
+  display: inline-block;
+  min-width: 26px;
+  text-align: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--azul-claro);
+  color: var(--azul-oscuro);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Formularios ------------------------------------------------------------- */
+
+.formulario {
+  background: var(--blanco);
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio);
+  padding: 24px;
+  box-shadow: var(--sombra);
+  max-width: 640px;
+}
+
+.campo {
+  margin-bottom: 18px;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--gris-700);
+  font-size: 0.9rem;
+}
+
+.formulario input[type="text"],
+.formulario input[type="email"],
+.formulario textarea,
+.formulario select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--gris-900);
+  background: var(--blanco);
+}
+
+.formulario input[type="text"]:focus,
+.formulario textarea:focus,
+.formulario select:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px var(--azul-claro);
+}
+
+.permisos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+  background: var(--gris-100);
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio);
+  padding: 14px;
+}
+
+.permiso {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+  color: var(--gris-700);
+}
+
+.campo--check .permiso {
+  font-weight: 600;
+  color: var(--gris-700);
+}
+
+.ayuda {
+  color: var(--gris-500);
+  font-size: 0.85rem;
+  margin: 6px 0 0;
+}
+
+.error,
+.errorlist {
+  color: var(--rojo);
+  font-size: 0.85rem;
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+}
+
+.acciones-formulario {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+/* Mensajes ---------------------------------------------------------------- */
+
+.mensajes {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+}
+
+.mensaje {
+  padding: 12px 16px;
+  border-radius: var(--radio);
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  border: 1px solid var(--gris-300);
+  background: var(--blanco);
+}
+
+.mensaje--success {
+  border-color: var(--verde);
+  background: var(--verde-claro);
+  color: var(--verde);
+}
+
+.mensaje--error,
+.mensaje--danger {
+  border-color: var(--rojo);
+  background: var(--rojo-claro);
+  color: var(--rojo);
+}
+
+/* Avisos y vacíos --------------------------------------------------------- */
+
+.aviso {
+  background: var(--blanco);
+  border: 1px solid var(--gris-300);
+  border-left: 4px solid var(--rojo);
+  border-radius: var(--radio);
+  padding: 24px;
+  box-shadow: var(--sombra);
+  max-width: 640px;
+}
+
+.vacio {
+  background: var(--blanco);
+  border: 1px dashed var(--gris-300);
+  border-radius: var(--radio);
+  padding: 30px;
+  text-align: center;
+  color: var(--gris-500);
+}
+
+/* Pie --------------------------------------------------------------------- */
+
+.pie {
+  background: var(--gris-900);
+  color: var(--gris-300);
+  padding: 14px 0;
+  font-size: 0.85rem;
+  text-align: center;
+}

@@ -1,0 +1,54 @@
+{% extends "usuarios/base.html" %}
+
+{% block titulo %}Editar perfil{% endblock %}
+
+{% block contenido %}
+<div class="barra-titulo">
+  <h2>Editar perfil</h2>
+  <a class="boton boton--secundario" href="{% url 'usuarios:perfil_lista' %}">Volver</a>
+</div>
+
+<form method="post" class="formulario">
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="error">{{ form.non_field_errors }}</div>
+  {% endif %}
+
+  <div class="campo">
+    <label for="{{ form.nombre.id_for_label }}">Nombre</label>
+    {{ form.nombre }}
+    {{ form.nombre.errors }}
+  </div>
+
+  <div class="campo">
+    <label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+    {{ form.descripcion }}
+    {{ form.descripcion.errors }}
+  </div>
+
+  <div class="campo">
+    <label>Módulos permitidos</label>
+    <div class="permisos">
+      {% for modulo in modulos %}
+        <span class="etiqueta">{{ modulo }}</span>
+      {% empty %}
+        <span class="ayuda">Este rol no tiene módulos asignados.</span>
+      {% endfor %}
+    </div>
+    <p class="ayuda">Se configuran en el código (<code>usuarios/acceso.py</code>).</p>
+  </div>
+
+  <div class="campo campo--check">
+    <label class="permiso">
+      {{ form.activo }}
+      <span>Activo</span>
+    </label>
+  </div>
+
+  <div class="acciones-formulario">
+    <button type="submit" class="boton boton--primario">Guardar</button>
+    <a class="boton boton--secundario" href="{% url 'usuarios:perfil_lista' %}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}
