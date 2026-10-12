@@ -1,0 +1,109 @@
+{% extends "usuarios/base.html" %}
+
+{% block titulo %}Usuarios{% endblock %}
+
+{% block contenido %}
+<div class="barra-titulo">
+  <h2>Usuarios</h2>
+  <a class="boton boton--primario" href="{% url 'usuarios:usuario_crear' %}">+ Registrar usuario</a>
+</div>
+
+<form method="get" class="filtro-rol">
+  <label>Ver listado por rol</label>
+  <select name="rol" onchange="this.form.submit()">
+    <option value="" {% if not rol_sel %}selected{% endif %}>Todos</option>
+    {% for perfil in perfiles %}
+      <option value="{{ perfil.nombre }}" {% if rol_sel == perfil.nombre %}selected{% endif %}>{{ perfil.get_nombre_display }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit" class="boton boton--primario">Ver</button>
+</form>
+
+{% if usuarios %}
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Estado</th>
+      <th>Rol</th>
+      <th>Fecha de creación</th>
+      <th class="col-acciones">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in usuarios %}
+    <tr>
+      <td>{{ item.user.first_name }}</td>
+      <td>{{ item.user.last_name }}</td>
+      <td>
+        {% if item.user.activo == "SI" %}
+          <span class="estado estado--activo">Activo</span>
+        {% else %}
+          <span class="estado estado--inactivo">Inactivo</span>
+        {% endif %}
+      </td>
+      <td>{{ item.rol_display }}</td>
+      <td>{{ item.user.fecha_creacion|date:"d/m/Y H:i" }}</td>
+      <td class="col-acciones">
+        <button type="button" class="boton boton--secundario" onclick="document.getElementById('info-{{ item.user.id }}').showModal()">Ver</button>
+        <button type="button" class="boton boton--peligro" onclick="document.getElementById('del-{{ item.user.id }}').showModal()">Eliminar</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% for item in usuarios %}
+<dialog id="info-{{ item.user.id }}" class="modal">
+  <h3>Información del usuario</h3>
+  <dl class="detalle">
+    <dt>Nombres</dt><dd>{{ item.user.first_name }}</dd>
+    <dt>Apellidos</dt><dd>{{ item.user.last_name }}</dd>
+    <dt>Correo</dt><dd>{{ item.user.email }}</dd>
+    <dt>Teléfono</dt><dd>{{ item.user.telefono|default:"—" }}</dd>
+    <dt>Rol</dt><dd>{{ item.rol_display }}</dd>
+    <dt>Estado</dt><dd>{% if item.user.activo == "SI" %}Activo{% else %}Inactivo{% endif %}</dd>
+    <dt>Fecha de creación</dt><dd>{{ item.user.fecha_creacion|date:"d/m/Y H:i" }}</dd>
+    {% if item.user.datos_profesionales %}
+      <dt>Especialidad</dt><dd>{{ item.user.datos_profesionales.especialidad|default:"—" }}</dd>
+      <dt>Registro médico</dt><dd>{{ item.user.datos_profesionales.registro_medico|default:"—" }}</dd>
+    {% endif %}
+    {% if item.user.antecedentes_clinicos %}
+      <dt>Tipo de sangre</dt><dd>{{ item.user.antecedentes_clinicos.tipo_sangre|default:"—" }}</dd>
+      <dt>Alergias</dt><dd>{{ item.user.antecedentes_clinicos.alergias|join:", "|default:"—" }}</dd>
+      <dt>Condiciones crónicas</dt><dd>{{ item.user.antecedentes_clinicos.condiciones_cronicas|join:", "|default:"—" }}</dd>
+      <dt>Historial familiar</dt><dd>{{ item.user.antecedentes_clinicos.historial_familiar|join:", "|default:"—" }}</dd>
+      <dt>Cirugías</dt>
+      <dd>
+        {% for cirugia in item.user.antecedentes_clinicos.cirugias %}
+          {{ cirugia.procedimiento }} ({{ cirugia.year }}, {{ cirugia.hospital }}){% if not forloop.last %}; {% endif %}
+        {% empty %}
+          —
+        {% endfor %}
+      </dd>
+    {% endif %}
+  </dl>
+  <form method="dialog" class="acciones-formulario">
+    <button class="boton boton--secundario">Cerrar</button>
+  </form>
+</dialog>
+
+<dialog id="del-{{ item.user.id }}" class="modal">
+  <h3>Eliminar usuario</h3>
+  <p>¿Seguro que deseas eliminar a <strong>{{ item.user.first_name }} {{ item.user.last_name }}</strong>?</p>
+  <form method="post" action="{% url 'usuarios:usuario_eliminar' item.user.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="rol" value="{{ rol_sel }}">
+    <div class="acciones-formulario">
+      <button type="submit" class="boton boton--peligro">Sí, eliminar</button>
+      <button type="button" class="boton boton--secundario" onclick="this.closest('dialog').close()">Cancelar</button>
+    </div>
+  </form>
+</dialog>
+{% endfor %}
+
+{% else %}
+<p class="vacio">No hay usuarios para mostrar.</p>
+{% endif %}
+{% endblock %}

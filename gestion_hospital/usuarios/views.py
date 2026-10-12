@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
 from bson import ObjectId
 from bson.errors import InvalidId
@@ -26,6 +27,13 @@ def perfiles_con_modulos(perfiles):
             }
         )
     return resultado
+
+#Devuelve el nombre del rol guardado en el usuario.
+def nombre_rol(user):
+    rol = user.rol
+    if isinstance(rol, dict):
+        return rol.get("nombre")
+    return getattr(rol, "nombre", None)
 
 
 # --------------------------------------------------------------------------
@@ -72,7 +80,6 @@ def perfil_editar(request, perfil_id):
 # Usuarios
 # --------------------------------------------------------------------------
 
-#Paso 1: elegir el rol del nuevo usuario.
 def usuario_crear(request):
     if request.method == "POST":
         form = SeleccionRolForm(request.POST)
@@ -85,7 +92,6 @@ def usuario_crear(request):
         form = SeleccionRolForm()
     return render(request, "usuarios/usuarios/crear_rol.html", {"form": form})
 
-#Paso 2: llenar los datos del usuario según el rol elegido.
 def usuario_crear_datos(request, rol_nombre):
     perfiles = {}
     for perfil in models.Perfil.objects.all():
@@ -111,3 +117,47 @@ def usuario_crear_datos(request, rol_nombre):
         "seccion": SECCION_POR_ROL.get(rol_nombre),
     }
     return render(request, "usuarios/usuarios/crear.html", contexto)
+
+#Listar los usuarios, con filtro por rol.
+def usuario_lista(request):
+    rol_sel = request.GET.get("rol", "")
+
+    perfiles = []
+    for perfil in models.Perfil.objects.all():
+        perfiles.append(perfil)
+
+    etiquetas_rol = {}
+    for codigo, etiqueta in models.Rol.Nombre.choices:
+        etiquetas_rol[codigo] = etiqueta
+
+    usuarios = []
+    for user in models.User.objects.all().order_by("-fecha_creacion"):
+        rol_nombre = nombre_rol(user)
+        if rol_sel != "" and rol_nombre != rol_sel:
+            continue
+        usuarios.append(
+            {
+                "user": user,
+                "rol_nombre": rol_nombre,
+                "rol_display": etiquetas_rol.get(rol_nombre, rol_nombre),
+            }
+        )
+
+    contexto = {
+        "perfiles": perfiles,
+        "rol_sel": rol_sel,
+        "usuarios": usuarios,
+    }
+    return render(request, "usuarios/usuarios/lista.html", contexto)
+
+#Eliminar un usuario (solo por POST).
+def usuario_eliminar(request, usuario_id):
+    user = get_object_or_404(models.User, id=paramToId(usuario_id))
+    if request.method == "POST":
+        user.delete()
+        messages.success(request, "Usuario eliminado correctamente.")
+    rol_sel = request.POST.get("rol", "")
+    url = reverse("usuarios:usuario_lista")
+    if rol_sel:
+        url = url + "?rol=" + rol_sel
+    return redirect(url)
