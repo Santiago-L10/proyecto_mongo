@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .. import models
 from ..acceso import nombres_modulos, modulos_de
+from ..auditoria import registrar_log
 from ..forms.formRol import PerfilForm
 from .viewComunes import paramToId, perfiles_con_modulos
 
@@ -20,8 +21,10 @@ def perfil_editar(request, perfil_id):
         form = PerfilForm(request.POST, instance=perfil)
         if form.is_valid():
             form.save()
+            registrar_log(request, "Editar rol", "Se editó el rol " + perfil.get_nombre_display(), "EXITOSO")
             messages.success(request, "Perfil actualizado correctamente.")
             return redirect("usuarios:perfil_lista")
+        registrar_log(request, "Editar rol", "No se pudo editar el rol " + perfil.get_nombre_display(), "FALLIDO")
     else:
         form = PerfilForm(instance=perfil)
     contexto = {

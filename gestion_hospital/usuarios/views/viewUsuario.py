@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from .. import models
 from ..acceso import SECCION_POR_ROL
+from ..auditoria import registrar_log
 from ..forms.formRol import SeleccionRolForm
 from ..forms.formUsuario import UsuarioEditarForm, UsuarioForm
 from .viewComunes import nombre_rol, paramToId
@@ -30,6 +31,7 @@ def usuario_crear_datos(request, rol_nombre):
         if perfil.activo:
             perfiles[perfil.nombre] = perfil
     if rol_nombre not in perfiles:
+        registrar_log(request, "Registrar usuario", "Rol no válido: " + rol_nombre, "FALLIDO")
         messages.error(request, "El rol seleccionado no es válido.")
         return redirect("usuarios:usuario_crear")
 
@@ -37,8 +39,10 @@ def usuario_crear_datos(request, rol_nombre):
         form = UsuarioForm(request.POST, rol_nombre=rol_nombre)
         if form.is_valid():
             form.guardar()
+            registrar_log(request, "Registrar usuario", "Se registró el usuario " + form.cleaned_data["email"] + " con rol " + perfiles[rol_nombre].get_nombre_display(), "EXITOSO")
             messages.success(request, "Usuario registrado correctamente.")
             return redirect("usuarios:panel_home")
+        registrar_log(request, "Registrar usuario", "No se pudo registrar el usuario " + str(request.POST.get("email")) + " con rol " + perfiles[rol_nombre].get_nombre_display(), "FALLIDO")
     else:
         form = UsuarioForm(rol_nombre=rol_nombre)
 
@@ -105,7 +109,9 @@ def usuario_editar(request, usuario_id):
 def usuario_eliminar(request, usuario_id):
     user = get_object_or_404(models.User, id=paramToId(usuario_id))
     if request.method == "POST":
+        correo = user.email
         user.delete()
+        registrar_log(request, "Eliminar usuario", "Se eliminó el usuario " + correo, "EXITOSO")
         messages.success(request, "Usuario eliminado correctamente.")
     rol_sel = request.POST.get("rol", "")
     url = reverse("usuarios:usuario_lista")

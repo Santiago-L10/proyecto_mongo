@@ -31,6 +31,7 @@ def login_sesion(request):
             usuario = form.usuario
             rol = nombre_rol(usuario)
             request.session["user_id"] = str(usuario.id)
+            request.session["email"] = usuario.email
             request.session["rol"] = rol
             request.session["nombre"] = usuario.first_name + " " + usuario.last_name
             return redirect(ruta_por_rol(rol))
