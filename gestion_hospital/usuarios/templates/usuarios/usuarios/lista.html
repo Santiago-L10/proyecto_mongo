@@ -57,36 +57,73 @@
 {% for item in usuarios %}
 <dialog id="info-{{ item.user.id }}" class="modal">
   <h3>Información del usuario</h3>
-  <dl class="detalle">
-    <dt>Nombres</dt><dd>{{ item.user.first_name }}</dd>
-    <dt>Apellidos</dt><dd>{{ item.user.last_name }}</dd>
-    <dt>Correo</dt><dd>{{ item.user.email }}</dd>
-    <dt>Teléfono</dt><dd>{{ item.user.telefono|default:"—" }}</dd>
-    <dt>Rol</dt><dd>{{ item.rol_display }}</dd>
-    <dt>Estado</dt><dd>{% if item.user.activo == "SI" %}Activo{% else %}Inactivo{% endif %}</dd>
-    <dt>Fecha de creación</dt><dd>{{ item.user.fecha_creacion|date:"d/m/Y H:i" }}</dd>
-    {% if item.user.datos_profesionales %}
-      <dt>Especialidad</dt><dd>{{ item.user.datos_profesionales.especialidad|default:"—" }}</dd>
-      <dt>Registro médico</dt><dd>{{ item.user.datos_profesionales.registro_medico|default:"—" }}</dd>
-    {% endif %}
-    {% if item.user.antecedentes_clinicos %}
-      <dt>Tipo de sangre</dt><dd>{{ item.user.antecedentes_clinicos.tipo_sangre|default:"—" }}</dd>
-      <dt>Alergias</dt><dd>{{ item.user.antecedentes_clinicos.alergias|join:", "|default:"—" }}</dd>
-      <dt>Condiciones crónicas</dt><dd>{{ item.user.antecedentes_clinicos.condiciones_cronicas|join:", "|default:"—" }}</dd>
-      <dt>Historial familiar</dt><dd>{{ item.user.antecedentes_clinicos.historial_familiar|join:", "|default:"—" }}</dd>
-      <dt>Cirugías</dt>
-      <dd>
-        {% for cirugia in item.user.antecedentes_clinicos.cirugias %}
-          {{ cirugia.procedimiento }} ({{ cirugia.year }}, {{ cirugia.hospital }}){% if not forloop.last %}; {% endif %}
-        {% empty %}
-          —
-        {% endfor %}
-      </dd>
-    {% endif %}
-  </dl>
-  <form method="dialog" class="acciones-formulario">
-    <button class="boton boton--secundario">Cerrar</button>
+
+  <form method="post" id="editar-{{ item.user.id }}" action="{% url 'usuarios:usuario_editar' item.user.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="rol" value="{{ rol_sel }}">
+
+    <div class="campo">
+      <label>Nombres</label>
+      <input type="text" name="first_name" value="{{ item.user.first_name }}" required>
+    </div>
+    <div class="campo">
+      <label>Apellidos</label>
+      <input type="text" name="last_name" value="{{ item.user.last_name }}" required>
+    </div>
+    <div class="campo">
+      <label>Correo</label>
+      <input type="email" name="email" value="{{ item.user.email }}" required>
+    </div>
+    <div class="campo">
+      <label>Teléfono</label>
+      <input type="text" name="telefono" value="{{ item.user.telefono }}">
+    </div>
+
+    <div class="campo campo--estado">
+      <label class="switch">
+        <input type="checkbox" name="activo" {% if item.user.activo == "SI" %}checked{% endif %}>
+        <span class="switch__slider"></span>
+      </label>
+      <span class="ayuda">Estado actual: {% if item.user.activo == "SI" %}Activo{% else %}Inactivo{% endif %}. Actívalo o desactívalo para dar o quitar el acceso.</span>
+    </div>
+
+    <dl class="detalle">
+      <dt>Rol</dt><dd>{{ item.rol_display }}</dd>
+      <dt>Fecha de creación</dt><dd>{{ item.user.fecha_creacion|date:"d/m/Y H:i" }}</dd>
+      {% if item.user.datos_profesionales %}
+        <dt>Especialidad</dt><dd>{{ item.user.datos_profesionales.especialidad|default:"—" }}</dd>
+        <dt>Registro médico</dt><dd>{{ item.user.datos_profesionales.registro_medico|default:"—" }}</dd>
+      {% endif %}
+      {% if item.user.antecedentes_clinicos %}
+        <dt>Tipo de sangre</dt><dd>{{ item.user.antecedentes_clinicos.tipo_sangre|default:"—" }}</dd>
+        <dt>Alergias</dt><dd>{{ item.user.antecedentes_clinicos.alergias|join:", "|default:"—" }}</dd>
+        <dt>Condiciones crónicas</dt><dd>{{ item.user.antecedentes_clinicos.condiciones_cronicas|join:", "|default:"—" }}</dd>
+        <dt>Historial familiar</dt><dd>{{ item.user.antecedentes_clinicos.historial_familiar|join:", "|default:"—" }}</dd>
+        <dt>Cirugías</dt>
+        <dd>
+          {% for cirugia in item.user.antecedentes_clinicos.cirugias %}
+            {{ cirugia.procedimiento }} ({{ cirugia.year }}, {{ cirugia.hospital }}){% if not forloop.last %}; {% endif %}
+          {% empty %}
+            —
+          {% endfor %}
+        </dd>
+      {% endif %}
+    </dl>
   </form>
+
+  <div class="acciones-formulario">
+    <button type="button" class="boton boton--primario" onclick="document.getElementById('upd-{{ item.user.id }}').showModal()">Actualizar</button>
+    <button type="button" class="boton boton--secundario" onclick="this.closest('dialog').close()">Cerrar</button>
+  </div>
+</dialog>
+
+<dialog id="upd-{{ item.user.id }}" class="modal">
+  <h3>Confirmar actualización</h3>
+  <p>¿Seguro que deseas actualizar la información de <strong>{{ item.user.first_name }} {{ item.user.last_name }}</strong>?</p>
+  <div class="acciones-formulario">
+    <button type="submit" form="editar-{{ item.user.id }}" class="boton boton--primario">Sí, actualizar</button>
+    <button type="button" class="boton boton--secundario" onclick="this.closest('dialog').close()">Cancelar</button>
+  </div>
 </dialog>
 
 <dialog id="del-{{ item.user.id }}" class="modal">

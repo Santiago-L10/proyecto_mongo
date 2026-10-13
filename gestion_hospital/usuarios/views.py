@@ -7,7 +7,7 @@ from bson.errors import InvalidId
 
 from . import models
 from .acceso import MODULOS_POR_ROL, SECCION_POR_ROL, nombres_modulos, modulos_de
-from .forms import PerfilForm, SeleccionRolForm, UsuarioForm
+from .forms import PerfilForm, SeleccionRolForm, UsuarioEditarForm, UsuarioForm
 
 #Convierte el id recibido por la URL al tipo de dato que usa Mongo.
 def paramToId(valor):
@@ -149,6 +149,22 @@ def usuario_lista(request):
         "usuarios": usuarios,
     }
     return render(request, "usuarios/usuarios/lista.html", contexto)
+
+#Actualizar los datos básicos de un usuario (rol y fecha de creación no se tocan).
+def usuario_editar(request, usuario_id):
+    user = get_object_or_404(models.User, id=paramToId(usuario_id))
+    if request.method == "POST":
+        form = UsuarioEditarForm(request.POST, usuario=user)
+        if form.is_valid():
+            form.guardar()
+            messages.success(request, "Usuario actualizado correctamente.")
+        else:
+            messages.error(request, "No se pudo actualizar. Revisa el correo (puede que ya exista) y los campos obligatorios.")
+    rol_sel = request.POST.get("rol", "")
+    url = reverse("usuarios:usuario_lista")
+    if rol_sel:
+        url = url + "?rol=" + rol_sel
+    return redirect(url)
 
 #Eliminar un usuario (solo por POST).
 def usuario_eliminar(request, usuario_id):

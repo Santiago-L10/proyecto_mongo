@@ -36,8 +36,7 @@ class SeleccionRolForm(forms.Form):
         self.fields["rol"].choices = opciones
 
 
-#Paso 2: datos del usuario. Los campos de la sección extra (datos
-#profesionales o antecedentes clínicos) se agregan según el rol elegido.
+#Paso 2: datos del usuario.
 class UsuarioForm(forms.Form):
 
     first_name = forms.CharField(max_length=100, label="Nombres")
@@ -151,5 +150,41 @@ class UsuarioForm(forms.Form):
                 "fecha_actualizacion": timezone.now(),
             }
 
+        user.save()
+        return user
+
+
+#Editar los datos básicos de un usuario (rol y fecha de creación no se tocan).
+class UsuarioEditarForm(forms.Form):
+
+    first_name = forms.CharField(max_length=100, label="Nombres")
+    last_name = forms.CharField(max_length=100, label="Apellidos")
+    email = forms.EmailField(label="Correo")
+    telefono = forms.CharField(max_length=30, required=False, label="Teléfono")
+    activo = forms.BooleanField(required=False, label="Activo")
+
+    def __init__(self, data=None, usuario=None):
+        super().__init__(data)
+        self.usuario = usuario
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        existentes = models.User.objects.filter(email=email)
+        if self.usuario is not None:
+            existentes = existentes.exclude(id=self.usuario.id)
+        if existentes.exists():
+            raise forms.ValidationError("Ya existe un usuario con ese correo.")
+        return email
+
+    def guardar(self):
+        user = self.usuario
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
+        user.email = self.cleaned_data["email"]
+        user.telefono = self.cleaned_data["telefono"]
+        if self.cleaned_data.get("activo"):
+            user.activo = "SI"
+        else:
+            user.activo = "NO"
         user.save()
         return user

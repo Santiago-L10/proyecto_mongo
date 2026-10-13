@@ -18,6 +18,11 @@ urlpatterns = [
         name="usuario_crear_datos",
     ),
     path(
+        "usuarios/<str:usuario_id>/editar/",
+        views.usuario_editar,
+        name="usuario_editar",
+    ),
+    path(
         "usuarios/<str:usuario_id>/eliminar/",
         views.usuario_eliminar,
         name="usuario_eliminar",
