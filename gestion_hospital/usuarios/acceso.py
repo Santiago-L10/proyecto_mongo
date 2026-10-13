@@ -32,9 +32,8 @@ def modulos_de(nombre_rol):
 def puede_acceder(nombre_rol, modulo):
     return modulo in modulos_de(nombre_rol)
 
-
+# Convierte códigos de módulo en sus nombres visibles
 def nombres_modulos(codigos):
-    """Convierte códigos de módulo en sus nombres visibles."""
     nombres = []
     for codigo in codigos:
         nombres.append(MODULOS.get(codigo, codigo))
