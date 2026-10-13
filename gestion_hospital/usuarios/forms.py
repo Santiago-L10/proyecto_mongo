@@ -17,7 +17,7 @@ def _perfiles_activos():
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = models.Perfil
-        fields = ["nombre", "descripcion", "activo"]
+        fields = ["nombre", "descripcion"]
         widgets = {
             "descripcion": forms.Textarea(attrs={"rows": 3}),
         }

@@ -14,7 +14,6 @@
       <th>Nombre</th>
       <th>Descripción</th>
       <th>Módulos</th>
-      <th>Estado</th>
       <th class="col-acciones">Acciones</th>
     </tr>
   </thead>
@@ -29,13 +28,6 @@
         {% empty %}
           —
         {% endfor %}
-      </td>
-      <td>
-        {% if item.perfil.activo %}
-          <span class="estado estado--activo">Activo</span>
-        {% else %}
-          <span class="estado estado--inactivo">Inactivo</span>
-        {% endif %}
       </td>
       <td class="col-acciones">
         <a class="boton boton--secundario" href="{% url 'usuarios:perfil_editar' item.perfil.id %}">Editar</a>

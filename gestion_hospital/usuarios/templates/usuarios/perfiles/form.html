@@ -39,13 +39,6 @@
     <p class="ayuda">Se configuran en el código (<code>usuarios/acceso.py</code>).</p>
   </div>
 
-  <div class="campo campo--check">
-    <label class="permiso">
-      {{ form.activo }}
-      <span>Activo</span>
-    </label>
-  </div>
-
   <div class="acciones-formulario">
     <button type="submit" class="boton boton--primario">Guardar</button>
     <a class="boton boton--secundario" href="{% url 'usuarios:perfil_lista' %}">Cancelar</a>
