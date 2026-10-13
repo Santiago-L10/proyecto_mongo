@@ -18,3 +18,19 @@ def crear_roles_iniciales(sender, **kwargs):
                 "activo": True,
             },
         )
+
+
+#Crea el usuario administrador por defecto si no existe.
+def crear_admin_inicial(sender, **kwargs):
+    existe = models.User.objects.filter(email="admin@hospital.com").first()
+    if existe is not None:
+        return
+    admin = models.User(
+        first_name="Administrador",
+        last_name="",
+        email="admin@hospital.com",
+        password="admin123",
+        activo="SI",
+        rol={"nombre": "ADMIN"},
+    )
+    admin.save()

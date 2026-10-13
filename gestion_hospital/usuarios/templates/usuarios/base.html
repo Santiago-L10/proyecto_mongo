@@ -16,6 +16,11 @@
         <a href="{% url 'usuarios:perfil_lista' %}">Perfiles</a>
         <a href="{% url 'usuarios:usuario_lista' %}">Usuarios</a>
         <a href="{% url 'usuarios:usuario_crear' %}">Registrar usuario</a>
+        {% if request.session.user_id %}
+          <a href="{% url 'usuarios:logout_sesion' %}">Cerrar sesión ({{ request.session.nombre }})</a>
+        {% else %}
+          <a href="{% url 'usuarios:login_sesion' %}">Iniciar sesión</a>
+        {% endif %}
       </nav>
     </div>
   </header>

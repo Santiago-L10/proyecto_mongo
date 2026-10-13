@@ -585,3 +585,36 @@ code {
   border-color: var(--azul);
   box-shadow: 0 0 0 3px var(--azul-claro);
 }
+
+/* Inicio de sesión --------------------------------------------------------- */
+
+.login-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--gris-100);
+}
+
+.login {
+  width: 100%;
+  max-width: 380px;
+  padding: 0 20px;
+}
+
+.login__logo {
+  text-align: center;
+  color: var(--azul);
+  font-size: 1.3rem;
+  margin: 0 0 4px;
+}
+
+.login h2 {
+  text-align: center;
+  color: var(--gris-700);
+  margin-bottom: 20px;
+}
+
+.login .formulario {
+  max-width: none;
+}
