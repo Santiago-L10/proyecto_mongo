@@ -16,6 +16,7 @@
         <a href="{% url 'usuarios:perfil_lista' %}">Perfiles</a>
         <a href="{% url 'usuarios:usuario_lista' %}">Usuarios</a>
         <a href="{% url 'usuarios:usuario_crear' %}">Registrar usuario</a>
+        <a href="{% url 'usuarios:log_lista' %}">Logs</a>
         {% if request.session.user_id %}
           <a href="{% url 'usuarios:logout_sesion' %}">Cerrar sesión ({{ request.session.nombre }})</a>
         {% else %}

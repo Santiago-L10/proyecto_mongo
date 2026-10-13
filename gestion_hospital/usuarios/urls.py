@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views.viewAuth import login_sesion, logout_sesion
+from .views.viewLog import log_lista
 from .views.viewPanel import panel_home
 from .views.viewRol import perfil_lista, perfil_editar
 from .views.viewUsuario import (
@@ -17,6 +18,7 @@ urlpatterns = [
     path("login/", login_sesion, name="login_sesion"),
     path("logout/", logout_sesion, name="logout_sesion"),
     path("", panel_home, name="panel_home"),
+    path("logs/", log_lista, name="log_lista"),
     # Perfiles / roles
     path("perfiles/", perfil_lista, name="perfil_lista"),
     path("perfiles/<str:perfil_id>/editar/", perfil_editar, name="perfil_editar"),

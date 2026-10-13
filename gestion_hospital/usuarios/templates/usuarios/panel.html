@@ -19,6 +19,10 @@
     <span class="tarjeta__numero">{{ total_usuarios }}</span>
     <span class="tarjeta__texto">Usuarios</span>
   </a>
+  <a class="tarjeta" href="{% url 'usuarios:log_lista' %}">
+    <span class="tarjeta__numero">{{ total_logs }}</span>
+    <span class="tarjeta__texto">Logs</span>
+  </a>
 </div>
 
 <h3>Módulos por rol</h3>

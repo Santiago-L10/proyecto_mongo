@@ -280,6 +280,11 @@ code {
   color: var(--gris-500);
 }
 
+.estado--error {
+  background: var(--rojo-claro);
+  color: var(--rojo);
+}
+
 .etiqueta {
   display: inline-block;
   min-width: 26px;
