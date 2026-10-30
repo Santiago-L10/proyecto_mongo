@@ -1,0 +1,21 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<!-- <link rel="stylesheet" href="% static css/styles.css %}"> -->
+
+<form method="post" action="{% url 'inicio' %}"> 
+    {% csrf_token %}
+    <div>
+        <label class="prueba">Nombre</label>
+        <br>
+        {{formulario.nombre}}
+    </div>
+    <div>
+        <label>Apellido</label>
+        <br>
+        {{formulario.apellido}}
+    </div>
+    <button>
+        Guardar
+    </button>
+</form>

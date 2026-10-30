@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+
+<!--  -->
+
+{% block lista-medicamentos %}
+    <h4>Medicamentos (lista)</h4>
+    {% for medicamento in medicamentos %}
+        <label>{{ medicamento.id }} - {{ medicamento.nombre }}</label>
+        <br>
+        <label>${{ medicamento.costo }}</label>
+        <br><br>
+    {% endfor %}
+{% endblock %}

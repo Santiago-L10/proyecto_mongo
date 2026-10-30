@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pagina de Inicio</title>
+    </head>
+    <body>
+        <h1>Bienvenido {{ usuario.id }} {{ usuario.nombre }} <!--{{ persona.nombre }}--> </h1> <!-- 
+                                                                                                Interpolacion porque es plantilla 
+                                                                                                 dinamica 
+                                                                                            -->
+        <p>Pagina principal</p>
+        {% if usuario.esAdministrador == 1 %}
+            <label>Bienvenido administrador</label>
+        {% else %}
+            <label>Bienvenido usuario corriente</label>
+        {% endif %}
+        <br><br>
+        {% block lista-medicamentos %}
+        {% endblock %}
+    </body>
+</html>
