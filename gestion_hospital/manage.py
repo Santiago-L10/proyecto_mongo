@@ -3,6 +3,10 @@
 import os
 import sys
 
+import six
+import django.utils
+django.utils.six = six
+
 
 def main():
     """Run administrative tasks."""

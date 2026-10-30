@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block renderizado %}
+<div class="box-card form-card">
+    <h2 class="box-title">Agendar Nueva Cita Medica</h2>
+
+    <form method="POST" action="{% url 'citas:crear_cita' %}">
+        {% csrf_token %}
+
+        <h4 class="form-seccion">Datos del Paciente</h4>
+
+        <div class="campo">
+            <label>{{ formulario.paciente_documento.label }}</label>
+            {{ formulario.paciente_documento }}
+        </div>
+
+        <div class="campo">
+            <label>{{ formulario.paciente_nombre.label }}</label>
+            {{ formulario.paciente_nombre }}
+        </div>
+
+        <div class="campo">
+            <label>{{ formulario.paciente_telefono.label }}</label>
+            {{ formulario.paciente_telefono }}
+        </div>
+
+        <h4 class="form-seccion">Datos del Especialista</h4>
+
+        <div class="campo">
+            <label>{{ formulario.doctor_nombre.label }}</label>
+            {{ formulario.doctor_nombre }}
+        </div>
+
+        <div class="campo">
+            <label>{{ formulario.doctor_especialidad.label }}</label>
+            {{ formulario.doctor_especialidad }}
+        </div>
+
+        <h4 class="form-seccion">Detalles de la Consulta</h4>
+
+        <div class="campo">
+            <label>{{ formulario.fecha_inicio.label }}</label>
+            {{ formulario.fecha_inicio }}
+        </div>
+
+        <div class="campo">
+            <label>{{ formulario.duracion_minutos.label }}</label>
+            {{ formulario.duracion_minutos }}
+        </div>
+
+        <div class="campo">
+            <label>{{ formulario.motivo_consulta.label }}</label>
+            {{ formulario.motivo_consulta }}
+        </div>
+
+        <div style="display: none;">
+            {{ formulario.paciente_id }}
+            {{ formulario.doctor_id }}
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Confirmar Agendamiento</button>
+            <a href="{% url 'citas:listar_citas' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

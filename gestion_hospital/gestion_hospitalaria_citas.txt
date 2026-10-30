@@ -1,0 +1,14 @@
+PROYECTO: Sistema de Gestion Hospitalaria
+MODULO / APLICACION: Citas (Appointments)
+
+1. Descripcion breve del proyecto:
+Plataforma de gestion hospitalaria desarrollada en Django y respaldada por MongoDB. El sistema permite administrar de manera integrada los procesos clinicos y operativos del hospital, implementando esquemas orientados a documentos con campos embebidos para representar entidades medicas sin recurrir a JOINs tradicionales.
+
+2. Proposito de la aplicacion (citas):
+Gestionar el ciclo de agendamiento, consulta, reprogramacion/cancelacion y eliminacion de citas medicas. Asegura la disponibilidad horaria de los profesionales de la salud mediante validaciones que impiden cruces de turnos, registrando los datos historicos del paciente y doctor al momento del registro.
+
+3. Implementacion CRUD en views.py segun lo impartido en clase:
+- CREATE (Crear): Implementado en agendar_cita mediante Cita.objects.create(...) tras comprobar disponibilidad con .filter() y .exists().
+- READ (Consultar): Implementado en listar_citas con Cita.objects.all() y en detalle_cita con Cita.objects.get(...) controlando la excepcion ObjectDoesNotExist.
+- UPDATE (Actualizar): Implementado en actualizar_cita mediante obtencion de la instancia, reasignacion de propiedades (estado, motivo_cancelacion) y ejecucion de .save().
+- DELETE (Eliminar): Implementado en eliminar_cita mediante busqueda por identificador con .get() y ejecucion directa del metodo .delete().

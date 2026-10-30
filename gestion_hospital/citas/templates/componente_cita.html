@@ -1,0 +1,19 @@
+<div class="box-card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 class="box-title" style="margin: 0; border: none;">
+            Paciente: {{ cita.paciente.nombre_completo }}
+        </h3>
+        <span class="badge bg-{{ cita.estado }}">{{ cita.estado }}</span>
+    </div>
+    <hr style="border: none; border-top: 1px solid var(--border); margin: 12px 0;">
+
+    <p><strong>Médico:</strong> {{ cita.doctor.nombre_completo }} ({{ cita.doctor.especialidad }})</p>
+    <p><strong>Fecha:</strong> {{ cita.fecha_inicio }} | <strong>Duración:</strong> {{ cita.duracion_minutos }} min</p>
+    <p><strong>Motivo:</strong> {{ cita.motivo_consulta|default:"Sin motivo registrado" }}</p>
+
+    <div class="btn-group">
+        <a class="btn btn-primary" href="{% url 'citas:detalle_cita' cita_id=cita.id %}">Ver Detalle</a>
+        <a class="btn btn-secondary" href="{% url 'citas:actualizar_cita' cita_id=cita.id %}">Editar</a>
+        <a class="btn btn-danger" href="{% url 'citas:eliminar_cita' cita_id=cita.id %}">Eliminar</a>
+    </div>
+</div>

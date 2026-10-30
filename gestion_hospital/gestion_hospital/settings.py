@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'gestion_hospital.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'gestion_hospital_db',
+        'NAME': 'gestion_hospital',
         'CLIENT': {
             'host': 'mongodb://localhost:27017',
-        },
+        }
     }
 }
 

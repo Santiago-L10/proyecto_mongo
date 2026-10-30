@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block renderizado %}
+    <a href="{% url 'citas:listar_citas' %}" class="link-volver">&larr; Volver al listado</a>
+
+    {% if cita %}
+        <div class="box-card">
+            <div class="detalle-head">
+                <h2>Detalle de Consulta Medica</h2>
+                <span class="badge bg-{{ cita.estado }}">{{ cita.estado }}</span>
+            </div>
+
+            <p><strong>Identificador Unico:</strong> {{ cita.id }}</p>
+
+            <div class="detalle-seccion">
+                <h3>Informacion del Paciente</h3>
+                <p><strong>Nombre Completo:</strong> {{ cita.paciente.nombre_completo }}</p>
+                <p><strong>Cedula / Documento:</strong> {{ cita.paciente.id_user }}</p>
+                <p><strong>Telefono:</strong> {{ cita.paciente.telefono }}</p>
+            </div>
+
+            <div class="detalle-seccion">
+                <h3>Informacion del Medico Tratante</h3>
+                <p><strong>Especialista:</strong> {{ cita.doctor.nombre_completo }}</p>
+                <p><strong>Especialidad:</strong> {{ cita.doctor.especialidad }}</p>
+            </div>
+
+            <div class="detalle-seccion">
+                <h3>Datos del Turno</h3>
+                <p><strong>Fecha y Hora:</strong> {{ cita.fecha_inicio }} hasta {{ cita.fecha_fin }}</p>
+                <p><strong>Duracion:</strong> {{ cita.duracion_minutos }} minutos</p>
+                <p><strong>Motivo de Consulta:</strong> {{ cita.motivo_consulta|default:"Sin motivo especificado" }}</p>
+            </div>
+
+            {% if cita.motivo_cancelacion %}
+                <div class="aviso-cancelacion">
+                    <strong>Motivo de Cancelacion:</strong> {{ cita.motivo_cancelacion }}
+                </div>
+            {% endif %}
+
+            <div class="btn-group">
+                <a class="btn btn-secondary" href="{% url 'citas:actualizar_cita' cita_id=cita.id %}">Editar Cita</a>
+                <a class="btn btn-danger" href="{% url 'citas:eliminar_cita' cita_id=cita.id %}">Eliminar Cita</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="box-card">
+            <p class="msg-error">
+                No se encontro ninguna cita con el identificador: {{ cita_id }}
+            </p>
+        </div>
+    {% endif %}
+{% endblock %}
