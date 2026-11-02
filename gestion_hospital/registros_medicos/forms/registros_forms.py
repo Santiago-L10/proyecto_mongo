@@ -1,7 +1,7 @@
 from django import forms
 from bson import ObjectId
 from bson.errors import InvalidId
-from citas.models import Cita
+# from citas.models import Cita
 
 
 class RegistroMedicoForm(forms.Form):
