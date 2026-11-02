@@ -1,4 +1,5 @@
 from djongo import models
+from bson import ObjectId
 
 
 class Paciente(models.Model):
@@ -43,28 +44,28 @@ class Diagnostico(models.Model):
 
 
 class RegistroMedico(models.Model):
-     _id = models.ObjectIdField()
-     fecha = models.DateTimeField(auto_now_add = True)
-     cita_id = models.CharField(max_length=24, null=True, blank=True)
-     paciente = models.EmbeddedField(model_container = Paciente)
-     doctor = models.EmbeddedField(model_container = Doctor)
-     queja_principal = models.TextField()
-     examen_fisico = models.TextField()
-     signos_vitales = models.EmbeddedField(model_container = SignosVitales)
-     diagnostico = models.ArrayField(model_container = Diagnostico)
-     tratamiento = models.TextField()
-     notas_adicionales = models.TextField(blank = True, null = True)
+    _id = models.ObjectIdField(primary_key=True, default=ObjectId, editable=False)
+    fecha = models.DateTimeField()
+    cita_id = models.CharField(max_length=100, blank=True, null=True)
+    paciente = models.JSONField()
+    doctor = models.JSONField()
+    queja_principal = models.TextField()
+    examen_fisico = models.TextField()
+    signos_vitales = models.JSONField()
+    diagnostico = models.JSONField()
+    tratamiento = models.TextField()
+    notas_adicionales = models.TextField(blank=True, null=True)
 
-     class Meta:
-        db_table = "registros_medicos"
+    class Meta:
+        db_table = 'registros_medicos'
 
 
 
 class EstudioLaboratorio(models.Model):
-     _id = models.ObjectIdField()
+     _id = models.ObjectIdField(primary_key=True, default=ObjectId, editable=False)
      registro_medico_id = models.CharField(max_length=24, null=True, blank=True)
-     paciente = models.EmbeddedField(model_container = Paciente)
-     solicitado_por = models.EmbeddedField(model_container = Doctor)
+     paciente = models.JSONField()
+     solicitado_por = models.JSONField()
      nombre_estudio = models.CharField(max_length = 150)
      CATEGORIAS_OPCIONES = [
         ("LABORATORIO", "LABORATORIO"),
@@ -80,7 +81,7 @@ class EstudioLaboratorio(models.Model):
         ("CANCELADO", "CANCELADO")
         ]
      estatus = models.CharField(max_length = 15, choices = ESTATUS_OPCIONES)
-     solicitud_examen = models.DateTimeField(auto_now_add = True)
+     solicitud_examen = models.DateTimeField()
      reporte_resultado = models.DateTimeField(blank = True, null = True)
      resultado = models.JSONField(blank=True, null=True)
      interpretacion = models.TextField(blank = True, null = True)

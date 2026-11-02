@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+
+{% block title %}Expedientes Médicos{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <header class="table-header">
+        <div class="header-text">
+            <h2 class="table-title">Historial de Expedientes Médicos</h2>
+            <p class="table-subtitle">Consolidado general de atenciones clínicas y diagnósticos registrados.</p>
+        </div>
+        <div class="header-actions">
+            <a href="{% url 'registros_medicos:crear_registro_medico' %}" class="btn btn-primary">+ Nueva Consulta</a>
+        </div>
+    </header>
+
+    {% if registros %}
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID Registro</th>
+                    <th>Fecha / Hora</th>
+                    <th>Documento Paciente</th>
+                    <th>Paciente</th>
+                    <th>Médico Tratante</th>
+                    <th>Diagnóstico (CIE-10)</th>
+                    <th>Signos Vitales</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reg in registros %}
+                <tr>
+                    <td>
+                        <span class="badge badge-id" title="{{ reg.pk }}">{{ reg.pk }}</span>
+                    </td>
+                    <td class="cell-date">
+                        {{ reg.fecha|date:"d/m/Y H:i" }}
+                    </td>
+                    <td>
+                        <span class="badge badge-id">{{ reg.paciente.id_paciente }}</span>
+                    </td>
+                    <td>
+                        <strong>{{ reg.paciente.nombre_paciente }}</strong>
+                        {% if reg.paciente.tipo_sangre %}
+                            <small class="text-muted">({{ reg.paciente.tipo_sangre }})</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div>{{ reg.doctor.nombre_doctor }}</div>
+                        <small class="text-muted">{{ reg.doctor.especialidad }}</small>
+                    </td>
+                    <td>
+                        {% for diag in reg.diagnostico %}
+                            <div class="diagnostic-item">
+                                <span class="badge badge-code">{{ diag.codigo }}</span> {{ diag.descripcion }}
+                            </div>
+                        {% empty %}
+                            <span class="text-muted">Sin diagnóstico</span>
+                        {% endfor %}
+                    </td>
+                    <td class="cell-vitals">
+                        <small>PA: {{ reg.signos_vitales.presion_arterial }}</small><br>
+                        <small>FC: {{ reg.signos_vitales.frecuencia_cardiaca }} lpm</small><br>
+                        <small>IMC: {{ reg.signos_vitales.bmi }}</small>
+                    </td>
+                    <td class="cell-actions">
+                        <div style="display: flex; flex-direction: column; gap: 0.4rem; align-items: stretch;">
+                            <a href="{% url 'registros_medicos:detalle_registro_medico' reg.pk %}" class="btn btn-secondary btn-sm" style="text-align: center;">
+                                Ver Detalle
+                            </a>
+                            <form action="{% url 'registros_medicos:eliminar_registro_medico' reg.pk %}" method="POST" class="inline-form" onsubmit="return confirm('¿Está seguro de eliminar este registro médico de forma permanente?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm" style="width: 100%;">Eliminar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p class="empty-text">No hay expedientes médicos registrados en la base de datos.</p>
+        <a href="{% url 'registros_medicos:crear_registro_medico' %}" class="btn btn-secondary">Registrar primera consulta</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

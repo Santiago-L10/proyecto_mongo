@@ -1,0 +1,376 @@
+{% extends 'layout.html' %}
+
+{% block title %}Registrar Consulta Médica{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <header class="form-header">
+        <h2 class="form-title">Registro de Consulta Médica</h2>
+        <p class="form-subtitle">Diligencie todos los campos de la atención médica y signos vitales del paciente.</p>
+    </header>
+
+    <form action="{% url 'registros_medicos:crear_registro_medico' %}" method="POST" class="clinical-form">
+        {% csrf_token %}
+
+        <!-- SECCIÓN 1: DATOS ADMINISTRATIVOS Y CITA -->
+        <fieldset class="form-section">
+            <legend class="section-title">Información de la Consulta</legend>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="cita_id" class="form-label">ID de la Cita (Opcional):</label>
+                    <input 
+                        type="text" 
+                        id="cita_id" 
+                        name="cita_id" 
+                        class="form-input" 
+                        placeholder="Ej. 652f1e2b8c9d0e1a2b3c4d5e (Dejar vacío si es urgencia)"
+                        value="{{ request.POST.cita_id|default:'' }}"
+                    >
+                    {% if form.cita_id.errors %}
+                        <span class="form-error">{{ form.cita_id.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- SECCIÓN 2: DATOS DEL PACIENTE (SNAPSHOT) -->
+        <fieldset class="form-section">
+            <legend class="section-title">Datos del Paciente</legend>
+            <div class="form-grid form-grid-2">
+                <div class="form-group">
+                    <label for="id_paciente" class="form-label">Documento / Cédula:*</label>
+                    <input 
+                        type="text" 
+                        id="id_paciente" 
+                        name="id_paciente" 
+                        class="form-input" 
+                        placeholder="Número de documento"
+                        value="{{ request.POST.id_paciente|default:'' }}" 
+                        required
+                    >
+                    {% if form.id_paciente.errors %}
+                        <span class="form-error">{{ form.id_paciente.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="nombre_paciente" class="form-label">Nombre Completo:*</label>
+                    <input 
+                        type="text" 
+                        id="nombre_paciente" 
+                        name="nombre_paciente" 
+                        class="form-input" 
+                        placeholder="Nombres y apellidos"
+                        value="{{ request.POST.nombre_paciente|default:'' }}" 
+                        required
+                    >
+                    {% if form.nombre_paciente.errors %}
+                        <span class="form-error">{{ form.nombre_paciente.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="tipo_sangre" class="form-label">Tipo de Sangre:*</label>
+                    <select id="tipo_sangre" name="tipo_sangre" class="form-select" required>
+                        <option value="" disabled {% if not request.POST.tipo_sangre %}selected{% endif %}>Seleccione...</option>
+                        <option value="O+" {% if request.POST.tipo_sangre == 'O+' %}selected{% endif %}>O+</option>
+                        <option value="O-" {% if request.POST.tipo_sangre == 'O-' %}selected{% endif %}>O-</option>
+                        <option value="A+" {% if request.POST.tipo_sangre == 'A+' %}selected{% endif %}>A+</option>
+                        <option value="A-" {% if request.POST.tipo_sangre == 'A-' %}selected{% endif %}>A-</option>
+                        <option value="B+" {% if request.POST.tipo_sangre == 'B+' %}selected{% endif %}>B+</option>
+                        <option value="B-" {% if request.POST.tipo_sangre == 'B-' %}selected{% endif %}>B-</option>
+                        <option value="AB+" {% if request.POST.tipo_sangre == 'AB+' %}selected{% endif %}>AB+</option>
+                        <option value="AB-" {% if request.POST.tipo_sangre == 'AB-' %}selected{% endif %}>AB-</option>
+                    </select>
+                    {% if form.tipo_sangre.errors %}
+                        <span class="form-error">{{ form.tipo_sangre.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="alergias_relevantes" class="form-label">Alergias Relevantes (separadas por comas):</label>
+                    <input 
+                        type="text" 
+                        id="alergias_relevantes" 
+                        name="alergias_relevantes" 
+                        class="form-input" 
+                        placeholder="Ej. Penicilina, Ibuprofeno, Maní"
+                        value="{{ request.POST.alergias_relevantes|default:'' }}"
+                    >
+                    {% if form.alergias_relevantes.errors %}
+                        <span class="form-error">{{ form.alergias_relevantes.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- SECCIÓN 3: MÉDICO TRATANTE (SNAPSHOT) -->
+        <fieldset class="form-section">
+            <legend class="section-title">Médico Tratante</legend>
+            <div class="form-grid form-grid-2">
+                <div class="form-group">
+                    <label for="id_doctor" class="form-label">Cédula del Médico:*</label>
+                    <input 
+                        type="text" 
+                        id="id_doctor" 
+                        name="id_doctor" 
+                        class="form-input" 
+                        placeholder="Identificación profesional"
+                        value="{{ request.POST.id_doctor|default:'' }}" 
+                        required
+                    >
+                    {% if form.id_doctor.errors %}
+                        <span class="form-error">{{ form.id_doctor.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="nombre_doctor" class="form-label">Nombre del Médico:*</label>
+                    <input 
+                        type="text" 
+                        id="nombre_doctor" 
+                        name="nombre_doctor" 
+                        class="form-input" 
+                        placeholder="Dr(a). Nombre y Apellido"
+                        value="{{ request.POST.nombre_doctor|default:'' }}" 
+                        required
+                    >
+                    {% if form.nombre_doctor.errors %}
+                        <span class="form-error">{{ form.nombre_doctor.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="especialidad" class="form-label">Especialidad:*</label>
+                    <input 
+                        type="text" 
+                        id="especialidad" 
+                        name="especialidad" 
+                        class="form-input" 
+                        placeholder="Ej. Medicina General, Pediatría"
+                        value="{{ request.POST.especialidad|default:'' }}" 
+                        required
+                    >
+                    {% if form.especialidad.errors %}
+                        <span class="form-error">{{ form.especialidad.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="registro_medico" class="form-label">Tarjeta Profesional / Registro:</label>
+                    <input 
+                        type="text" 
+                        id="registro_medico" 
+                        name="registro_medico" 
+                        class="form-input" 
+                        placeholder="Ej. RM-2024-COL"
+                        value="{{ request.POST.registro_medico|default:'' }}"
+                    >
+                    {% if form.registro_medico.errors %}
+                        <span class="form-error">{{ form.registro_medico.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- SECCIÓN 4: SIGNOS VITALES -->
+        <fieldset class="form-section">
+            <legend class="section-title">Signos Vitales y Somatometría</legend>
+            <div class="form-grid form-grid-3">
+                <div class="form-group">
+                    <label for="presion_arterial" class="form-label">Presión Arterial (mmHg):*</label>
+                    <input 
+                        type="text" 
+                        id="presion_arterial" 
+                        name="presion_arterial" 
+                        class="form-input" 
+                        placeholder="Ej. 120/80"
+                        value="{{ request.POST.presion_arterial|default:'' }}" 
+                        required
+                    >
+                    {% if form.presion_arterial.errors %}
+                        <span class="form-error">{{ form.presion_arterial.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="frecuencia_cardiaca" class="form-label">Frecuencia Cardíaca (lpm):*</label>
+                    <input 
+                        type="number" 
+                        step="0.1" 
+                        id="frecuencia_cardiaca" 
+                        name="frecuencia_cardiaca" 
+                        class="form-input" 
+                        placeholder="Ej. 75"
+                        value="{{ request.POST.frecuencia_cardiaca|default:'' }}" 
+                        required
+                    >
+                    {% if form.frecuencia_cardiaca.errors %}
+                        <span class="form-error">{{ form.frecuencia_cardiaca.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="frecuencia_respiratoria" class="form-label">Frecuencia Resp. (rpm):*</label>
+                    <input 
+                        type="number" 
+                        step="0.1" 
+                        id="frecuencia_respiratoria" 
+                        name="frecuencia_respiratoria" 
+                        class="form-input" 
+                        placeholder="Ej. 18"
+                        value="{{ request.POST.frecuencia_respiratoria|default:'' }}" 
+                        required
+                    >
+                    {% if form.frecuencia_respiratoria.errors %}
+                        <span class="form-error">{{ form.frecuencia_respiratoria.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="temperatura" class="form-label">Temperatura (°C):*</label>
+                    <input 
+                        type="number" 
+                        step="0.1" 
+                        id="temperatura" 
+                        name="temperatura" 
+                        class="form-input" 
+                        placeholder="Ej. 36.5"
+                        value="{{ request.POST.temperatura|default:'' }}" 
+                        required
+                    >
+                    {% if form.temperatura.errors %}
+                        <span class="form-error">{{ form.temperatura.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="peso_kg" class="form-label">Peso (kg):*</label>
+                    <input 
+                        type="number" 
+                        step="0.1" 
+                        id="peso_kg" 
+                        name="peso_kg" 
+                        class="form-input" 
+                        placeholder="Ej. 70.5"
+                        value="{{ request.POST.peso_kg|default:'' }}" 
+                        required
+                    >
+                    {% if form.peso_kg.errors %}
+                        <span class="form-error">{{ form.peso_kg.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="estatura_cm" class="form-label">Estatura (cm):*</label>
+                    <input 
+                        type="number" 
+                        step="0.1" 
+                        id="estatura_cm" 
+                        name="estatura_cm" 
+                        class="form-input" 
+                        placeholder="Ej. 175"
+                        value="{{ request.POST.estatura_cm|default:'' }}" 
+                        required
+                    >
+                    {% if form.estatura_cm.errors %}
+                        <span class="form-error">{{ form.estatura_cm.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- SECCIÓN 5: VALORACIÓN CLÍNICA Y DIAGNÓSTICO -->
+        <fieldset class="form-section">
+            <legend class="section-title">Evaluación Clínica</legend>
+            
+            <div class="form-group">
+                <label for="queja_principal" class="form-label">Motivo de Consulta (Queja Principal):*</label>
+                <textarea 
+                    id="queja_principal" 
+                    name="queja_principal" 
+                    class="form-textarea" 
+                    rows="3" 
+                    placeholder="Descripción de los síntomas por parte del paciente..."
+                    required
+                >{{ request.POST.queja_principal|default:'' }}</textarea>
+                {% if form.queja_principal.errors %}
+                    <span class="form-error">{{ form.queja_principal.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="examen_fisico" class="form-label">Examen Físico:*</label>
+                <textarea 
+                    id="examen_fisico" 
+                    name="examen_fisico" 
+                    class="form-textarea" 
+                    rows="3" 
+                    placeholder="Hallazgos del examen físico por sistemas..."
+                    required
+                >{{ request.POST.examen_fisico|default:'' }}</textarea>
+                {% if form.examen_fisico.errors %}
+                    <span class="form-error">{{ form.examen_fisico.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-grid form-grid-2">
+                <div class="form-group">
+                    <label for="codigo_diagnostico" class="form-label">Código Diagnóstico (CIE-10):*</label>
+                    <input 
+                        type="text" 
+                        id="codigo_diagnostico" 
+                        name="codigo_diagnostico" 
+                        class="form-input" 
+                        placeholder="Ej. J00, R51, K29"
+                        value="{{ request.POST.codigo_diagnostico|default:'' }}" 
+                        required
+                    >
+                    {% if form.codigo_diagnostico.errors %}
+                        <span class="form-error">{{ form.codigo_diagnostico.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="descripcion_diagnostico" class="form-label">Descripción Diagnóstica:*</label>
+                    <input 
+                        type="text" 
+                        id="descripcion_diagnostico" 
+                        name="descripcion_diagnostico" 
+                        class="form-input" 
+                        placeholder="Ej. Rinofaringitis aguda, Cefalea"
+                        value="{{ request.POST.descripcion_diagnostico|default:'' }}" 
+                        required
+                    >
+                    {% if form.descripcion_diagnostico.errors %}
+                        <span class="form-error">{{ form.descripcion_diagnostico.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tratamiento" class="form-label">Tratamiento e Indicaciones:*</label>
+                <textarea 
+                    id="tratamiento" 
+                    name="tratamiento" 
+                    class="form-textarea" 
+                    rows="3" 
+                    placeholder="Plan farmacológico o no farmacológico prescrito..."
+                    required
+                >{{ request.POST.tratamiento|default:'' }}</textarea>
+                {% if form.tratamiento.errors %}
+                    <span class="form-error">{{ form.tratamiento.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="notas_adicionales" class="form-label">Notas Adicionales de Seguimiento:</label>
+                <textarea 
+                    id="notas_adicionales" 
+                    name="notas_adicionales" 
+                    class="form-textarea" 
+                    rows="2" 
+                    placeholder="Observaciones complementarias..."
+                >{{ request.POST.notas_adicionales|default:'' }}</textarea>
+                {% if form.notas_adicionales.errors %}
+                    <span class="form-error">{{ form.notas_adicionales.errors.0 }}</span>
+                {% endif %}
+            </div>
+        </fieldset>
+
+        <!-- ACCIONES DEL FORMULARIO -->
+        <div class="form-actions">
+            <a href="{% url 'registros_medicos:listar_registros_medicos' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar Registro Médico</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

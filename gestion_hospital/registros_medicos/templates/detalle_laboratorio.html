@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+
+{% block title %}Detalle de Estudio Clínico{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <header class="form-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h2 class="form-title">Informe de Examen Diagnóstico</h2>
+            <p class="form-subtitle">Consulta de resultados y reporte médico final.</p>
+        </div>
+        <div>
+            {% if laboratorio.estatus == 'COMPLETADO' %}
+                <span class="badge badge-success" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">{{ laboratorio.estatus }}</span>
+            {% elif laboratorio.estatus == 'CANCELADO' %}
+                <span class="badge badge-danger" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">{{ laboratorio.estatus }}</span>
+            {% else %}
+                <span class="badge badge-info" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">{{ laboratorio.estatus }}</span>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Resumen de la Orden -->
+    <section class="order-summary-card">
+        <h3 class="summary-card-title">Datos del Paciente y Solicitud</h3>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <span class="summary-label">Paciente:</span>
+                <span class="summary-value">{{ laboratorio.paciente.nombre_paciente }} (ID: {{ laboratorio.paciente.id_paciente }})</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Examen Realizado:</span>
+                <span class="summary-value"><strong>{{ laboratorio.nombre_estudio }}</strong></span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Categoría:</span>
+                <span class="summary-value">{{ laboratorio.categoria }}</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Médico Solicitante:</span>
+                <span class="summary-value">{{ laboratorio.solicitado_por.nombre_doctor }} ({{ laboratorio.solicitado_por.especialidad|default:'General' }})</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Fecha de Solicitud:</span>
+                <span class="summary-value">{{ laboratorio.solicitud_examen|date:"d/m/Y H:i" }}</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Fecha de Reporte:</span>
+                <span class="summary-value">{{ laboratorio.reporte_resultado|date:"d/m/Y H:i"|default:"No reportado" }}</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Métricas Analíticas / Parámetros -->
+    <fieldset class="form-section">
+        <legend class="section-title">Resultados Reportados</legend>
+        {% if parametros %}
+            <div class="table-responsive" style="margin-top: 0.5rem;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Parámetro / Métrica</th>
+                            <th style="width: 50%;">Valor Obtenido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for nombre, valor in parametros %}
+                        <tr>
+                            <td><strong>{{ nombre }}</strong></td>
+                            <td>{{ valor }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted" style="padding: 0.5rem 0;">No se registraron parámetros analíticos específicos.</p>
+        {% endif %}
+
+        {% if hallazgos %}
+            <div style="margin-top: 1.25rem;">
+                <label class="form-label">Hallazgos Generales / Informe Descriptivo:</label>
+                <div style="background-color: var(--color-bg-base); border: 1px solid var(--color-border); padding: 0.85rem; border-radius: var(--radius-sm); white-space: pre-line;">{{ hallazgos }}</div>
+            </div>
+        {% endif %}
+    </fieldset>
+
+    <!-- Interpretación Clínica -->
+    <fieldset class="form-section">
+        <legend class="section-title">Concepto Profesional / Interpretación</legend>
+        <div style="background-color: var(--color-bg-base); border: 1px solid var(--color-border); padding: 0.85rem; border-radius: var(--radius-sm); white-space: pre-line;">{{ laboratorio.interpretacion|default:"Sin interpretación registrada." }}</div>
+    </fieldset>
+
+    <!-- Botón Volver -->
+    <div class="form-actions">
+        <a href="{% url 'registros_medicos:listar_estudios_laboratorio' %}" class="btn btn-secondary">Volver al Listado</a>
+    </div>
+</div>
+{% endblock %}

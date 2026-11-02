@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+
+{% block title %}Órdenes y Estudios de Laboratorio{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <header class="table-header">
+        <div class="header-text">
+            <h2 class="table-title">Órdenes de Exámenes y Laboratorios</h2>
+            <p class="table-subtitle">Control de solicitudes diagnósticas, estatus y registro de resultados analíticos.</p>
+        </div>
+        <div class="header-actions">
+            <!-- Botón de eliminación masiva de cancelados -->
+            <form action="{% url 'registros_medicos:eliminar_estudios_cancelados' %}" method="POST" class="inline-form" onsubmit="return confirm('¿Está seguro de eliminar todos los exámenes con estatus CANCELADO?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning">Limpiar Cancelados</button>
+            </form>
+            <a href="{% url 'registros_medicos:crear_estudio_laboratorio' %}" class="btn btn-primary">+ Nueva Orden</a>
+        </div>
+    </header>
+
+    {% if laboratorios %}
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Fecha Solicitud</th>
+                    <th>Documento Paciente</th>
+                    <th>Paciente</th>
+                    <th>Estudio Requerido</th>
+                    <th>Categoría</th>
+                    <th>Médico Solicitante</th>
+                    <th>Estatus</th>
+                    <th>Resultados</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lab in laboratorios %}
+                <tr>
+                    <td class="cell-date">
+                        {{ lab.solicitud_examen|date:"d/m/Y H:i" }}
+                    </td>
+                    <td>
+                        <span class="badge badge-id">{{ lab.paciente.id_paciente }}</span>
+                    </td>
+                    <td>
+                        <strong>{{ lab.paciente.nombre_paciente }}</strong>
+                    </td>
+                    <td>
+                        <span class="study-name">{{ lab.nombre_estudio }}</span>
+                    </td>
+                    <td>
+                        <span class="badge badge-category">{{ lab.categoria }}</span>
+                    </td>
+                    <td>
+                        <div>{{ lab.solicitado_por.nombre_doctor }}</div>
+                        <small class="text-muted">{{ lab.solicitado_por.especialidad }}</small>
+                    </td>
+                    <td>
+                        {% if lab.estatus == 'COMPLETADO' %}
+                            <span class="badge badge-success">{{ lab.estatus }}</span>
+                        {% elif lab.estatus == 'SOLICITADO' %}
+                            <span class="badge badge-warning">{{ lab.estatus }}</span>
+                        {% elif lab.estatus == 'EN_PROCESO' %}
+                            <span class="badge badge-info">{{ lab.estatus }}</span>
+                        {% else %}
+                            <span class="badge badge-danger">{{ lab.estatus }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="cell-results">
+                        {% if lab.estatus == 'SOLICITADO' or lab.estatus == 'EN_PROCESO' %}
+                            <span class="text-muted">Pendiente de resultados</span>
+                        {% endif %}
+                    </td>
+                    <td class="cell-actions">
+                        {% if lab.estatus == 'COMPLETADO' or lab.estatus == 'CANCELADO' %}
+                            <a href="{% url 'registros_medicos:detalle_laboratorio' lab.pk %}" class="btn btn-secondary btn-sm">
+                                Ver Detalle
+                            </a>
+                        {% else %}
+                            <a href="{% url 'registros_medicos:actualizar_laboratorio' lab.pk %}" class="btn btn-primary btn-sm">
+                                {% if lab.estatus == 'EN_PROCESO' %}Continuar Reporte{% else %}Reportar Resultado{% endif %}
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p class="empty-text">No hay órdenes de laboratorio registradas en la base de datos.</p>
+        <a href="{% url 'registros_medicos:crear_estudio_laboratorio' %}" class="btn btn-secondary">Generar primera orden</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

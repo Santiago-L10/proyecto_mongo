@@ -1,0 +1,166 @@
+{% extends 'layout.html' %}
+
+{% block title %}Solicitar Estudio de Laboratorio{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <header class="form-header">
+        <h2 class="form-title">Orden Médica de Laboratorio</h2>
+        <p class="form-subtitle">Genere una solicitud de exámenes analíticos o imágenes diagnósticas para el paciente.</p>
+    </header>
+
+    <form action="{% url 'registros_medicos:crear_estudio_laboratorio' %}" method="POST" class="clinical-form">
+        {% csrf_token %}
+
+        <!-- SECCIÓN 1: VINCULACIÓN CON CONSULTA -->
+        <fieldset class="form-section">
+            <legend class="section-title">Origen de la Orden</legend>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="registro_medico_id" class="form-label">ID Consulta Médica (Opcional):</label>
+                    <input 
+                        type="text" 
+                        id="registro_medico_id" 
+                        name="registro_medico_id" 
+                        class="form-input" 
+                        placeholder="Ej. 652f1e2b8c9d0e1a2b3c4d5e"
+                        value="{{ request.POST.registro_medico_id|default:'' }}"
+                    >
+                    {% if form.registro_medico_id.errors %}
+                        <span class="form-error">{{ form.registro_medico_id.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- SECCIÓN 2: DATOS DEL PACIENTE (SNAPSHOT) -->
+        <fieldset class="form-section">
+            <legend class="section-title">Datos del Paciente</legend>
+            <div class="form-grid form-grid-2">
+                <div class="form-group">
+                    <label for="id_paciente" class="form-label">Documento / Cédula:*</label>
+                    <input 
+                        type="text" 
+                        id="id_paciente" 
+                        name="id_paciente" 
+                        class="form-input" 
+                        placeholder="Número de documento"
+                        value="{{ request.POST.id_paciente|default:'' }}" 
+                        required
+                    >
+                    {% if form.id_paciente.errors %}
+                        <span class="form-error">{{ form.id_paciente.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="nombre_paciente" class="form-label">Nombre Completo:*</label>
+                    <input 
+                        type="text" 
+                        id="nombre_paciente" 
+                        name="nombre_paciente" 
+                        class="form-input" 
+                        placeholder="Nombres y apellidos"
+                        value="{{ request.POST.nombre_paciente|default:'' }}" 
+                        required
+                    >
+                    {% if form.nombre_paciente.errors %}
+                        <span class="form-error">{{ form.nombre_paciente.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- SECCIÓN 3: MÉDICO SOLICITANTE (SNAPSHOT) -->
+        <fieldset class="form-section">
+            <legend class="section-title">Médico Solicitante</legend>
+            <div class="form-grid form-grid-2">
+                <div class="form-group">
+                    <label for="id_doctor" class="form-label">Cédula del Médico:*</label>
+                    <input 
+                        type="text" 
+                        id="id_doctor" 
+                        name="id_doctor" 
+                        class="form-input" 
+                        placeholder="Identificación profesional"
+                        value="{{ request.POST.id_doctor|default:'' }}" 
+                        required
+                    >
+                    {% if form.id_doctor.errors %}
+                        <span class="form-error">{{ form.id_doctor.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="nombre_doctor" class="form-label">Nombre del Médico:*</label>
+                    <input 
+                        type="text" 
+                        id="nombre_doctor" 
+                        name="nombre_doctor" 
+                        class="form-input" 
+                        placeholder="Dr(a). Nombre y Apellido"
+                        value="{{ request.POST.nombre_doctor|default:'' }}" 
+                        required
+                    >
+                    {% if form.nombre_doctor.errors %}
+                        <span class="form-error">{{ form.nombre_doctor.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="especialidad" class="form-label">Especialidad:</label>
+                    <input 
+                        type="text" 
+                        id="especialidad" 
+                        name="especialidad" 
+                        class="form-input" 
+                        placeholder="Ej. Medicina General, Medicina Interna"
+                        value="{{ request.POST.especialidad|default:'' }}"
+                    >
+                    {% if form.especialidad.errors %}
+                        <span class="form-error">{{ form.especialidad.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- SECCIÓN 4: DETALLES DEL EXAMEN -->
+        <fieldset class="form-section">
+            <legend class="section-title">Estudio Requerido</legend>
+            <div class="form-grid form-grid-2">
+                <div class="form-group">
+                    <label for="nombre_estudio" class="form-label">Nombre del Estudio:*</label>
+                    <input 
+                        type="text" 
+                        id="nombre_estudio" 
+                        name="nombre_estudio" 
+                        class="form-input" 
+                        placeholder="Ej. Cuadro Hemático, Radiografía de Tórax"
+                        value="{{ request.POST.nombre_estudio|default:'' }}" 
+                        required
+                    >
+                    {% if form.nombre_estudio.errors %}
+                        <span class="form-error">{{ form.nombre_estudio.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="categoria" class="form-label">Categoría:*</label>
+                    <select id="categoria" name="categoria" class="form-select" required>
+                        <option value="" disabled {% if not request.POST.categoria %}selected{% endif %}>Seleccione...</option>
+                        <option value="LABORATORIO" {% if request.POST.categoria == 'LABORATORIO' %}selected{% endif %}>LABORATORIO</option>
+                        <option value="IMAGENOLOGIA" {% if request.POST.categoria == 'IMAGENOLOGIA' %}selected{% endif %}>IMAGENOLOGIA</option>
+                        <option value="PATOLOGIA" {% if request.POST.categoria == 'PATOLOGIA' %}selected{% endif %}>PATOLOGIA</option>
+                        <option value="OTRO" {% if request.POST.categoria == 'OTRO' %}selected{% endif %}>OTRO</option>
+                    </select>
+                    {% if form.categoria.errors %}
+                        <span class="form-error">{{ form.categoria.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- ACCIONES -->
+        <div class="form-actions">
+            <a href="{% url 'registros_medicos:listar_estudios_laboratorio' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Generar Orden</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
