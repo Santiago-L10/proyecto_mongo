@@ -2,47 +2,6 @@ from djongo import models
 from bson import ObjectId
 
 
-class Paciente(models.Model):
-     id_paciente = models.CharField(max_length = 50)
-     nombre_paciente = models.CharField(max_length=150)
-     tipo_sangre = models.CharField(max_length = 5, blank = True, null = True)
-     alergias_relevantes = models.JSONField(default=list, blank=True, null=True)
-
-     class Meta:
-          abstract = True
-
-
-class Doctor(models.Model):
-     id_doctor = models.CharField(max_length=50)
-     nombre_doctor = models.CharField(max_length = 150)
-     especialidad = models.CharField(max_length = 100)
-     registro_medico = models.CharField(max_length = 100, blank = True, null = True)
-
-     class Meta:
-          abstract = True
-
-
-class SignosVitales(models.Model):
-     presion_arterial = models.CharField(max_length = 20)
-     frecuencia_cardiaca = models.FloatField()
-     frecuencia_respiratoria = models.FloatField()
-     temperatura = models.FloatField()
-     peso_kg = models.FloatField()
-     estatura_cm = models.FloatField()
-     bmi = models.FloatField(blank = True, null = True)
-
-     class Meta:
-          abstract = True
-
-
-class Diagnostico(models.Model):
-     codigo = models.CharField(max_length = 20)
-     descripcion = models.TextField()
-
-     class Meta:
-          abstract = True
-
-
 class RegistroMedico(models.Model):
     _id = models.ObjectIdField(primary_key=True, default=ObjectId, editable=False)
     fecha = models.DateTimeField()
