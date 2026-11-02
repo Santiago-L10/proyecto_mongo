@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión</title>
+  <link rel="stylesheet" href="{% static 'usuarios/panel.css' %}">
+</head>
+<body class="login-body">
+  <main class="login">
+    <h1 class="login__logo">Gestión Hospitalaria</h1>
+    <h2>Iniciar sesión</h2>
+
+    <form method="post" class="formulario">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="error">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="campo">
+        <label>Correo</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+      </div>
+
+      <div class="campo">
+        <label>Contraseña</label>
+        {{ form.password }}
+        {{ form.password.errors }}
+      </div>
+
+      <div class="acciones-formulario">
+        <button type="submit" class="boton boton--primario">Entrar</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>
