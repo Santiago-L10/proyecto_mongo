@@ -10,7 +10,6 @@
             <p class="table-subtitle">Control de solicitudes diagnósticas, estatus y registro de resultados analíticos.</p>
         </div>
         <div class="header-actions">
-            <!-- Botón de eliminación masiva de cancelados -->
             <form action="{% url 'registros_medicos:eliminar_estudios_cancelados' %}" method="POST" class="inline-form" onsubmit="return confirm('¿Está seguro de eliminar todos los exámenes con estatus CANCELADO?');">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-warning">Limpiar Cancelados</button>

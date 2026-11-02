@@ -12,7 +12,6 @@
     <form action="{% url 'registros_medicos:crear_estudio_laboratorio' %}" method="POST" class="clinical-form">
         {% csrf_token %}
 
-        <!-- SECCIÓN 1: VINCULACIÓN CON CONSULTA -->
         <fieldset class="form-section">
             <legend class="section-title">Origen de la Orden</legend>
             <div class="form-grid">
@@ -33,7 +32,6 @@
             </div>
         </fieldset>
 
-        <!-- SECCIÓN 2: DATOS DEL PACIENTE (SNAPSHOT) -->
         <fieldset class="form-section">
             <legend class="section-title">Datos del Paciente</legend>
             <div class="form-grid form-grid-2">
@@ -70,7 +68,6 @@
             </div>
         </fieldset>
 
-        <!-- SECCIÓN 3: MÉDICO SOLICITANTE (SNAPSHOT) -->
         <fieldset class="form-section">
             <legend class="section-title">Médico Solicitante</legend>
             <div class="form-grid form-grid-2">
@@ -121,7 +118,7 @@
             </div>
         </fieldset>
 
-        <!-- SECCIÓN 4: DETALLES DEL EXAMEN -->
+
         <fieldset class="form-section">
             <legend class="section-title">Estudio Requerido</legend>
             <div class="form-grid form-grid-2">
@@ -156,7 +153,6 @@
             </div>
         </fieldset>
 
-        <!-- ACCIONES -->
         <div class="form-actions">
             <a href="{% url 'registros_medicos:listar_estudios_laboratorio' %}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Generar Orden</button>

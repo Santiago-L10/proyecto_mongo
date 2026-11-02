@@ -12,7 +12,7 @@
     <form action="{% url 'registros_medicos:crear_registro_medico' %}" method="POST" class="clinical-form">
         {% csrf_token %}
 
-        <!-- SECCIÓN 1: DATOS ADMINISTRATIVOS Y CITA -->
+
         <fieldset class="form-section">
             <legend class="section-title">Información de la Consulta</legend>
             <div class="form-grid">
@@ -33,7 +33,7 @@
             </div>
         </fieldset>
 
-        <!-- SECCIÓN 2: DATOS DEL PACIENTE (SNAPSHOT) -->
+
         <fieldset class="form-section">
             <legend class="section-title">Datos del Paciente</legend>
             <div class="form-grid form-grid-2">
@@ -101,7 +101,7 @@
             </div>
         </fieldset>
 
-        <!-- SECCIÓN 3: MÉDICO TRATANTE (SNAPSHOT) -->
+
         <fieldset class="form-section">
             <legend class="section-title">Médico Tratante</legend>
             <div class="form-grid form-grid-2">
@@ -167,7 +167,7 @@
             </div>
         </fieldset>
 
-        <!-- SECCIÓN 4: SIGNOS VITALES -->
+
         <fieldset class="form-section">
             <legend class="section-title">Signos Vitales y Somatometría</legend>
             <div class="form-grid form-grid-3">
@@ -269,7 +269,7 @@
             </div>
         </fieldset>
 
-        <!-- SECCIÓN 5: VALORACIÓN CLÍNICA Y DIAGNÓSTICO -->
+
         <fieldset class="form-section">
             <legend class="section-title">Evaluación Clínica</legend>
             
@@ -366,7 +366,7 @@
             </div>
         </fieldset>
 
-        <!-- ACCIONES DEL FORMULARIO -->
+
         <div class="form-actions">
             <a href="{% url 'registros_medicos:listar_registros_medicos' %}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Guardar Registro Médico</button>

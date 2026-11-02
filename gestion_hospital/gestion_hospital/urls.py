@@ -16,12 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 
-from django.urls import path, include # include añade las urls de la app 
+from django.urls import path, include
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('registros_medicos/', include('registros_medicos.urls')), # Toda peticion entra por las urls del proyecto
+    path('registros_medicos/', include('registros_medicos.urls')),
     path('facturacion/', include('facturacion.urls')),
     path('panel/', include('usuarios.urls')),
 ]

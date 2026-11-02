@@ -9,7 +9,7 @@
         <p class="form-subtitle">Actualice el estatus de la orden médica e ingrese las métricas analíticas obtenidas.</p>
     </header>
 
-    <!-- Resumen de la Solicitud (Solo Lectura) -->
+
     <section class="order-summary-card">
         <h3 class="summary-card-title">Resumen de la Orden</h3>
         <div class="summary-grid">
@@ -32,11 +32,10 @@
         </div>
     </section>
 
-    <!-- Formulario de Actualización -->
+
     <form action="{% url 'registros_medicos:actualizar_laboratorio' laboratorio.pk %}" method="POST" class="clinical-form">
         {% csrf_token %}
 
-        <!-- SECCIÓN 1: ESTADO DEL ESTUDIO -->
         <fieldset class="form-section">
             <legend class="section-title">Estatus de la Orden</legend>
             <div class="form-grid">
@@ -52,14 +51,12 @@
             </div>
         </fieldset>
 
-        <!-- SECCIÓN 2: RESULTADOS DINÁMICOS CON PRECARGA -->
+
         <fieldset class="form-section">
             <legend class="section-title">Resultados del Estudio ({{ laboratorio.nombre_estudio }})</legend>
-
             <div id="contenedor-parametros">
                 {% for nombre, valor in parametros_previos %}
                     {% if forloop.first %}
-                        <!-- Primera fila guardada (Con etiquetas y sin botón de eliminar) -->
                         <div class="form-grid form-grid-2 fila-parametro" style="margin-bottom: 0.85rem;">
                             <div class="form-group">
                                 <label class="form-label">Parámetro / Métrica:</label>
@@ -71,7 +68,6 @@
                             </div>
                         </div>
                     {% else %}
-                        <!-- Filas adicionales guardadas (Con botón ✕ a la derecha) -->
                         <div class="form-grid form-grid-2 fila-parametro" style="margin-bottom: 0.85rem;">
                             <div class="form-group">
                                 <input type="text" name="parametro_nombre" class="form-input" value="{{ nombre }}" placeholder="Ej. Hemoglobina, Glucosa, Técnica...">
@@ -83,7 +79,6 @@
                         </div>
                     {% endif %}
                 {% empty %}
-                    <!-- Si aún no hay resultados guardados, muestra una fila vacía inicial -->
                     <div class="form-grid form-grid-2 fila-parametro" style="margin-bottom: 0.85rem;">
                         <div class="form-group">
                             <label class="form-label">Parámetro / Métrica:</label>
@@ -97,12 +92,11 @@
                 {% endfor %}
             </div>
 
-            <!-- Botón para agregar todas las filas que se necesiten -->
             <button type="button" onclick="agregarParametro()" class="btn btn-secondary" style="margin-bottom: 1.25rem;">
                 + Agregar otro parámetro
             </button>
 
-            <!-- Campo adicional para descripción general con valor precargado -->
+
             <div class="form-group">
                 <label for="hallazgos" class="form-label">Informe Descriptivo / Hallazgos Generales (Opcional):</label>
                 <textarea id="hallazgos" name="hallazgos" class="form-textarea" rows="3" placeholder="Descripción detallada si es imagenología o patología...">{{ hallazgos_previos }}</textarea>
@@ -128,7 +122,7 @@
         }
         </script>
 
-        <!-- SECCIÓN 3: INTERPRETACIÓN CLÍNICA -->
+
         <fieldset class="form-section">
             <legend class="section-title">Concepto Profesional</legend>
             <div class="form-group">
@@ -143,7 +137,7 @@
             </div>
         </fieldset>
 
-        <!-- ACCIONES -->
+
         <div class="form-actions">
             <a href="{% url 'registros_medicos:listar_estudios_laboratorio' %}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Actualizar y Guardar Resultados</button>

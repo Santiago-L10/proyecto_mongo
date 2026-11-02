@@ -14,7 +14,7 @@
         </div>
     </header>
 
-    <!-- Resumen de Atención y Snapshots -->
+
     <section class="order-summary-card">
         <h3 class="summary-card-title">Datos Generales de la Atención</h3>
         <div class="summary-grid">
@@ -51,7 +51,7 @@
         </div>
     </section>
 
-    <!-- Signos Vitales -->
+
     <fieldset class="form-section">
         <legend class="section-title">Signos Vitales y Somatometría</legend>
         <div class="summary-grid">
@@ -86,7 +86,7 @@
         </div>
     </fieldset>
 
-    <!-- Anamnesis y Examen Físico -->
+
     <fieldset class="form-section">
         <legend class="section-title">Motivo y Exploración</legend>
         <div class="form-group" style="margin-bottom: 1rem;">
@@ -99,7 +99,7 @@
         </div>
     </fieldset>
 
-    <!-- Diagnósticos CIE-10 -->
+
     <fieldset class="form-section">
         <legend class="section-title">Diagnósticos Clínicos</legend>
         {% if registro.diagnostico %}
@@ -126,7 +126,7 @@
         {% endif %}
     </fieldset>
 
-    <!-- Plan de Manejo y Notas -->
+
     <fieldset class="form-section">
         <legend class="section-title">Plan Terapéutico</legend>
         <div class="form-group" style="margin-bottom: 1rem;">
@@ -141,7 +141,7 @@
         {% endif %}
     </fieldset>
 
-    <!-- Acciones -->
+
     <div class="form-actions">
         <a href="{% url 'registros_medicos:listar_registros_medicos' %}" class="btn btn-secondary">Volver al Historial</a>
     </div>

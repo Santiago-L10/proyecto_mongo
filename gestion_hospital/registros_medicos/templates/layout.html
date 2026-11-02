@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Gestión Hospitalaria{% endblock %}</title>
-    <!-- Hoja de estilos compartida -->
     <link rel="stylesheet" href="{% static 'style.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body class="layout-body">
 
-    <!-- Encabezado Principal -->
     <header class="main-header">
         <div class="header-container">
             <div class="logo-title">
@@ -22,7 +20,6 @@
             
             <nav class="main-nav">
                 <ul class="nav-list">
-                    <!-- Módulos principales usando la clase existente btn-link -->
                     <li>
                         <a href="{% url 'registros_medicos:listar_registros_medicos' %}" class="nav-link btn-link">
                             Expedientes Médicos
@@ -34,10 +31,10 @@
                         </a>
                     </li>
 
-                    <!-- Separador visual nativo con estilo en línea -->
+
                     <li style="color: rgba(255, 255, 255, 0.35); font-weight: 300; user-select: none;">|</li>
 
-                    <!-- Las demás aplicaciones con estilo nav-link estándar -->
+
                     <li>
                         <a href="#" class="nav-link">Citas</a>
                     </li>
@@ -55,7 +52,6 @@
         </div>
     </header>
 
-    <!-- Contenedor Dinámico Principal -->
     <main class="main-content">
         <section class="content-wrapper">
             {% block content %}
@@ -63,7 +59,6 @@
         </section>
     </main>
 
-    <!-- Pie de Página -->
     <footer class="main-footer">
         <div class="footer-container">
             <p>&copy; 2026 Sistema de Gestión Hospitalaria - Departamento de Registros Clínicos</p>
