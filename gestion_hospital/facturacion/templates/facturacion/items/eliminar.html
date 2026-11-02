@@ -1,0 +1,25 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Eliminar concepto del detalle - Factura {{ factura.numero_factura }}</h2>
+
+{% if cantidad_items > 1 %}
+<p class="mensaje">
+    ¿Seguro que desea eliminar <strong>{{ item.concepto }}</strong> del detalle
+    ({{ item.cantidad }} x $ {{ item.precio_unitario }})?
+</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button class="boton boton-rojo" type="submit">Sí, eliminar</button>
+    <a class="boton boton-rojo" href="{% url 'facturacion:items' factura.id %}">Cancelar</a>
+</form>
+{% else %}
+<p class="mensaje">
+    No se puede eliminar <strong>{{ item.concepto }}</strong> porque es el único concepto del detalle.
+    La factura debe tener mínimo un concepto.
+</p>
+
+<a class="boton boton-gris" href="{% url 'facturacion:items' factura.id %}">Volver al detalle</a>
+{% endif %}
+{% endblock %}

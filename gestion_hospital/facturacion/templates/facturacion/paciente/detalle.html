@@ -1,0 +1,23 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Paciente de la factura {{ factura.numero_factura }}</h2>
+
+<table>
+    <tr>
+        <th>ID del usuario</th>
+        <th>Cédula</th>
+        <th>Nombre completo</th>
+    </tr>
+    <tr>
+        <td>{{ factura.paciente.id }}</td>
+        <td>{{ factura.paciente.id_user }}</td>
+        <td>{{ factura.paciente.nombre_completo }}</td>
+    </tr>
+</table>
+
+<p class="mensaje">El paciente se registra al crear la factura y no se puede eliminar porque es obligatorio.</p>
+
+<a class="boton" href="{% url 'facturacion:actualizarPaciente' factura.id %}">Editar paciente</a>
+<a class="boton boton-gris" href="{% url 'facturacion:facturas' %}">Volver a facturas</a>
+{% endblock %}

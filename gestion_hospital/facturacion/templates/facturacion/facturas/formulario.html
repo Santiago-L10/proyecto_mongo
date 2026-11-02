@@ -1,0 +1,67 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>{{ titulo }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h3>Datos de la factura</h3>
+
+    <div class="campo">
+        <label>Número de factura (Ej: FAC-2026-0001)</label>
+        <input type="text" name="numero_factura" value="{{ factura.numero_factura }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Fecha de emisión (AAAA-MM-DD HH:MM, Ej: 2026-10-20 08:30)</label>
+        <input type="text" name="fecha_emision" value="{{ factura.fecha_emision|date:'Y-m-d H:i' }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Estado</label>
+        <select name="estado">
+            <option value="PENDIENTE" {% if factura.estado == 'PENDIENTE' %}selected{% endif %}>Pendiente</option>
+            <option value="PAGADA" {% if factura.estado == 'PAGADA' %}selected{% endif %}>Pagada</option>
+            <option value="ANULADA" {% if factura.estado == 'ANULADA' %}selected{% endif %}>Anulada</option>
+        </select>
+    </div>
+
+    <div class="campo">
+        <label>Método de pago</label>
+        <select name="metodo_pago">
+            <option value="EFECTIVO" {% if factura.metodo_pago == 'EFECTIVO' %}selected{% endif %}>Efectivo</option>
+            <option value="TARJETA_CREDITO" {% if factura.metodo_pago == 'TARJETA_CREDITO' %}selected{% endif %}>Tarjeta crédito</option>
+            <option value="TARJETA_DEBITO" {% if factura.metodo_pago == 'TARJETA_DEBITO' %}selected{% endif %}>Tarjeta débito</option>
+            <option value="TRANSFERENCIA" {% if factura.metodo_pago == 'TRANSFERENCIA' %}selected{% endif %}>Transferencia</option>
+            <option value="SEGURO_TOTAL" {% if factura.metodo_pago == 'SEGURO_TOTAL' %}selected{% endif %}>Seguro total</option>
+        </select>
+    </div>
+
+    <div class="campo">
+        <label>Total bruto</label>
+        <input type="text" name="total_bruto" value="{{ factura.total_bruto }}" required>
+    </div>
+
+    <div class="campo">
+        <label>IVA</label>
+        <input type="text" name="iva" value="{{ factura.iva }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Valor neto a pagar</label>
+        <input type="text" name="valor_neto_pagar" value="{{ factura.valor_neto_pagar }}" required>
+    </div>
+
+    {% if not factura %}
+    <h3>Paciente</h3>
+    {% include 'facturacion/paciente/campos.html' %}
+
+    <h3>Primer concepto del detalle</h3>
+    {% include 'facturacion/items/campos.html' %}
+    {% endif %}
+
+    <button class="boton" type="submit">Guardar</button>
+    <a class="boton boton-rojo" href="{% url 'facturacion:facturas' %}">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Facturación - Gestión Hospital</title>
+        <link rel="stylesheet" href="{% static 'facturacion/css/estilos.css' %}">
+    </head>
+    <body>
+        <header class="encabezado">
+            <h1>Gestión Hospital - Facturación</h1>
+            <nav class="menu">
+                <a href="{% url 'facturacion:inicio' %}">Facturación</a>
+                <a href="{% url 'facturacion:polizas' %}">Pólizas</a>
+                <a href="{% url 'facturacion:facturas' %}">Facturas</a>
+            </nav>
+        </header>
+
+        <main class="contenido">
+            {% block renderizado %}
+            {% endblock %}
+        </main>
+
+        <footer class="pie">Gestión Hospital - Módulo de facturación</footer>
+    </body>
+</html>

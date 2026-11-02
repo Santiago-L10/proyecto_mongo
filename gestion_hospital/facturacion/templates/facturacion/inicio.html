@@ -1,0 +1,20 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Bienvenido a la Facturación</h2>
+<p>Desde aquí puede gestionar las pólizas de seguro y las facturas del hospital.</p>
+
+<div class="tarjeta">
+    <h3>Pólizas de seguro</h3>
+    <p>Convenios con las aseguradoras y el titular de cada póliza.</p>
+    <a class="boton" href="{% url 'facturacion:polizas' %}">Ver pólizas</a>
+    <a class="boton" href="{% url 'facturacion:crearPoliza' %}">Crear póliza</a>
+</div>
+
+<div class="tarjeta">
+    <h3>Facturas</h3>
+    <p>Facturas con el paciente, el detalle de lo cobrado y la cobertura del seguro.</p>
+    <a class="boton" href="{% url 'facturacion:facturas' %}">Ver facturas</a>
+    <a class="boton" href="{% url 'facturacion:crearFactura' %}">Crear factura</a>
+</div>
+{% endblock %}

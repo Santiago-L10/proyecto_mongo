@@ -1,0 +1,15 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>{{ titulo }} - Factura {{ factura.numero_factura }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h3>Concepto del detalle</h3>
+    {% include 'facturacion/items/campos.html' %}
+
+    <button class="boton" type="submit">Guardar</button>
+    <a class="boton boton-rojo" href="{% url 'facturacion:items' factura.id %}">Cancelar</a>
+</form>
+{% endblock %}
