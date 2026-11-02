@@ -1,0 +1,17 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Eliminar factura</h2>
+
+<p class="mensaje">
+    ¿Seguro que desea eliminar la factura <strong>{{ factura.numero_factura }}</strong>
+    del paciente <strong>{{ factura.paciente.nombre_completo }}</strong>?
+    También se eliminan su detalle y su cobertura, porque están dentro de la factura.
+</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button class="boton boton-rojo" type="submit">Sí, eliminar</button>
+    <a class="boton boton-rojo" href="{% url 'facturacion:facturas' %}">Cancelar</a>
+</form>
+{% endblock %}

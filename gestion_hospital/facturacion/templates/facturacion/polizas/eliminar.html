@@ -1,0 +1,16 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Eliminar póliza</h2>
+
+<p class="mensaje">
+    ¿Seguro que desea eliminar la póliza <strong>{{ poliza.codigo_poliza }}</strong>
+    de <strong>{{ poliza.titular.nombre_completo }}</strong> ({{ poliza.aseguradora }})?
+</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button class="boton boton-rojo" type="submit">Sí, eliminar</button>
+    <a class="boton boton-rojo" href="{% url 'facturacion:polizas' %}">Cancelar</a>
+</form>
+{% endblock %}

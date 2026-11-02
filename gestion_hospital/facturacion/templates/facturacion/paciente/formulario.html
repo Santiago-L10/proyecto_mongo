@@ -1,0 +1,15 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Actualizar paciente de la factura {{ factura.numero_factura }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h3>Paciente</h3>
+    {% include 'facturacion/paciente/campos.html' with paciente=factura.paciente %}
+
+    <button class="boton" type="submit">Guardar</button>
+    <a class="boton boton-rojo" href="{% url 'facturacion:paciente' factura.id %}">Cancelar</a>
+</form>
+{% endblock %}

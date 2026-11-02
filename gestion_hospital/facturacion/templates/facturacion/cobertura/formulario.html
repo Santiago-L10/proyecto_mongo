@@ -1,0 +1,29 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>{{ titulo }} - Factura {{ factura.numero_factura }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h3>Cobertura del seguro</h3>
+
+    <div class="campo">
+        <label>Código de póliza (Ej: POL-1004)</label>
+        <input type="text" name="codigo_poliza" value="{{ cobertura.codigo_poliza }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Aseguradora</label>
+        <input type="text" name="aseguradora" value="{{ cobertura.aseguradora }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Monto cubierto</label>
+        <input type="text" name="monto_cubierto" value="{{ cobertura.monto_cubierto }}" required>
+    </div>
+
+    <button class="boton" type="submit">Guardar</button>
+    <a class="boton boton-rojo" href="{% url 'facturacion:cobertura' factura.id %}">Cancelar</a>
+</form>
+{% endblock %}

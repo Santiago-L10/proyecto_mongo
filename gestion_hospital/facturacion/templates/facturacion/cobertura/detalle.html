@@ -1,0 +1,30 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Cobertura del seguro - Factura {{ factura.numero_factura }}</h2>
+
+{% if factura.cobertura_seguro %}
+<table>
+    <tr>
+        <th>Código de póliza</th>
+        <th>Aseguradora</th>
+        <th>Monto cubierto</th>
+    </tr>
+    <tr>
+        <td>{{ factura.cobertura_seguro.codigo_poliza }}</td>
+        <td>{{ factura.cobertura_seguro.aseguradora }}</td>
+        <td>$ {{ factura.cobertura_seguro.monto_cubierto }}</td>
+    </tr>
+</table>
+
+<br>
+<a class="boton" href="{% url 'facturacion:actualizarCobertura' factura.id %}">Editar cobertura</a>
+<a class="boton boton-rojo" href="{% url 'facturacion:eliminarCobertura' factura.id %}">Eliminar cobertura</a>
+{% else %}
+<p class="mensaje">Esta factura no tiene cobertura de seguro.</p>
+
+<a class="boton" href="{% url 'facturacion:crearCobertura' factura.id %}">Agregar cobertura</a>
+{% endif %}
+
+<a class="boton boton-gris" href="{% url 'facturacion:facturas' %}">Volver a facturas</a>
+{% endblock %}
