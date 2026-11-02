@@ -1,0 +1,31 @@
+<div class="campo">
+    <label>Concepto (Ej: Consulta Cardiología, Amoxicilina 500mg)</label>
+    <input type="text" name="concepto" value="{{ item.concepto }}" required>
+</div>
+
+<div class="campo">
+    <label>Tipo</label>
+    <select name="tipo">
+        <option value="CONSULTA" {% if item.tipo == 'CONSULTA' %}selected{% endif %}>Consulta</option>
+        <option value="MEDICAMENTO" {% if item.tipo == 'MEDICAMENTO' %}selected{% endif %}>Medicamento</option>
+        <option value="LABORATORIO" {% if item.tipo == 'LABORATORIO' %}selected{% endif %}>Laboratorio</option>
+        <option value="PROCEDIMIENTO" {% if item.tipo == 'PROCEDIMIENTO' %}selected{% endif %}>Procedimiento</option>
+    </select>
+</div>
+
+<div class="campo">
+    <label>ID de referencia (opcional)</label>
+    <input type="text" name="referencia_id" value="{{ item.referencia_id }}">
+</div>
+
+<div class="campo">
+    <label>Cantidad</label>
+    <input type="text" name="cantidad" value="{{ item.cantidad }}" required>
+</div>
+
+<div class="campo">
+    <label>Precio unitario</label>
+    <input type="text" name="precio_unitario" value="{{ item.precio_unitario }}" required>
+</div>
+
+<p>El subtotal se calcula solo: cantidad x precio unitario.</p>

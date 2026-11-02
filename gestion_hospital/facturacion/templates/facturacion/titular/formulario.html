@@ -1,0 +1,15 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Actualizar titular de la póliza {{ poliza.codigo_poliza }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h3>Titular de la póliza</h3>
+    {% include 'facturacion/titular/campos.html' with titular=poliza.titular %}
+
+    <button class="boton" type="submit">Guardar</button>
+    <a class="boton boton-rojo" href="{% url 'facturacion:titular' poliza.id %}">Cancelar</a>
+</form>
+{% endblock %}

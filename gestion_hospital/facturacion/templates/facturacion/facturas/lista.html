@@ -1,0 +1,39 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Facturas</h2>
+<a class="boton" href="{% url 'facturacion:crearFactura' %}">Crear factura</a>
+
+{% if facturas %}
+<table>
+    <tr>
+        <th>Número</th>
+        <th>Fecha</th>
+        <th>Paciente</th>
+        <th>Estado</th>
+        <th>Método de pago</th>
+        <th>Valor neto</th>
+        <th>Acciones</th>
+    </tr>
+    {% for factura in facturas %}
+    <tr>
+        <td>{{ factura.numero_factura }}</td>
+        <td>{{ factura.fecha_emision }}</td>
+        <td>{{ factura.paciente.nombre_completo }}</td>
+        <td>{{ factura.estado }}</td>
+        <td>{{ factura.metodo_pago }}</td>
+        <td>$ {{ factura.valor_neto_pagar }}</td>
+        <td>
+            <a class="boton" href="{% url 'facturacion:paciente' factura.id %}">Paciente</a>
+            <a class="boton" href="{% url 'facturacion:items' factura.id %}">Detalle</a>
+            <a class="boton" href="{% url 'facturacion:cobertura' factura.id %}">Cobertura</a>
+            <a class="boton" href="{% url 'facturacion:actualizarFactura' factura.id %}">Editar</a>
+            <a class="boton boton-rojo" href="{% url 'facturacion:eliminarFactura' factura.id %}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p class="mensaje">Todavía no hay facturas registradas.</p>
+{% endif %}
+{% endblock %}

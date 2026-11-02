@@ -1,0 +1,49 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>{{ titulo }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h3>Datos de la póliza</h3>
+
+    <div class="campo">
+        <label>Código de póliza (Ej: POL-1004)</label>
+        <input type="text" name="codigo_poliza" value="{{ poliza.codigo_poliza }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Aseguradora</label>
+        <input type="text" name="aseguradora" value="{{ poliza.aseguradora }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Tipo de servicio (Ej: Plan Oro, Medicina Prepagada, EPS)</label>
+        <input type="text" name="tipo_servicio" value="{{ poliza.tipo_servicio }}">
+    </div>
+
+    <div class="campo">
+        <label>Porcentaje de cobertura general (0 a 100)</label>
+        <input type="text" name="porcentaje_cobertura_general" value="{{ poliza.porcentaje_cobertura_general }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Fecha de inicio (AAAA-MM-DD, Ej: 2026-01-01)</label>
+        <input type="text" name="fecha_inicio" value="{{ poliza.fecha_inicio|date:'Y-m-d' }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Fecha de fin (AAAA-MM-DD, Ej: 2026-12-31)</label>
+        <input type="text" name="fecha_fin" value="{{ poliza.fecha_fin|date:'Y-m-d' }}" required>
+    </div>
+
+    {% if not poliza %}
+    <h3>Titular de la póliza</h3>
+    {% include 'facturacion/titular/campos.html' %}
+    {% endif %}
+
+    <button class="boton" type="submit">Guardar</button>
+    <a class="boton boton-rojo" href="{% url 'facturacion:polizas' %}">Cancelar</a>
+</form>
+{% endblock %}

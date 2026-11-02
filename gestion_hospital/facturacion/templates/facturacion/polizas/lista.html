@@ -1,0 +1,37 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Pólizas de seguro</h2>
+<a class="boton" href="{% url 'facturacion:crearPoliza' %}">Crear póliza</a>
+
+{% if polizas %}
+<table>
+    <tr>
+        <th>Código</th>
+        <th>Titular</th>
+        <th>Aseguradora</th>
+        <th>Tipo de servicio</th>
+        <th>% Cobertura</th>
+        <th>Vigencia</th>
+        <th>Acciones</th>
+    </tr>
+    {% for poliza in polizas %}
+    <tr>
+        <td>{{ poliza.codigo_poliza }}</td>
+        <td>{{ poliza.titular.nombre_completo }}</td>
+        <td>{{ poliza.aseguradora }}</td>
+        <td>{{ poliza.tipo_servicio }}</td>
+        <td>{{ poliza.porcentaje_cobertura_general }} %</td>
+        <td>{{ poliza.fecha_inicio }} a {{ poliza.fecha_fin }}</td>
+        <td>
+            <a class="boton" href="{% url 'facturacion:titular' poliza.id %}">Titular</a>
+            <a class="boton" href="{% url 'facturacion:actualizarPoliza' poliza.id %}">Editar</a>
+            <a class="boton boton-rojo" href="{% url 'facturacion:eliminarPoliza' poliza.id %}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p class="mensaje">Todavía no hay pólizas registradas.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'facturacion/layout.html' %}
+
+{% block renderizado %}
+<h2>Detalle de la factura {{ factura.numero_factura }}</h2>
+<a class="boton" href="{% url 'facturacion:crearItem' factura.id %}">Agregar concepto</a>
+
+<table>
+    <tr>
+        <th>Concepto</th>
+        <th>Tipo</th>
+        <th>Referencia</th>
+        <th>Cantidad</th>
+        <th>Precio unitario</th>
+        <th>Subtotal</th>
+        <th>Acciones</th>
+    </tr>
+    {% for item in factura.items %}
+    <tr>
+        <td>{{ item.concepto }}</td>
+        <td>{{ item.tipo }}</td>
+        <td>{{ item.referencia_id }}</td>
+        <td>{{ item.cantidad }}</td>
+        <td>$ {{ item.precio_unitario }}</td>
+        <td>$ {{ item.subtotal }}</td>
+        <td>
+            <a class="boton" href="{% url 'facturacion:actualizarItem' factura.id forloop.counter0 %}">Editar</a>
+            <a class="boton boton-rojo" href="{% url 'facturacion:eliminarItem' factura.id forloop.counter0 %}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<a class="boton boton-gris" href="{% url 'facturacion:facturas' %}">Volver a facturas</a>
+{% endblock %}
