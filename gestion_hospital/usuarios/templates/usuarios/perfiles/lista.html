@@ -1,0 +1,50 @@
+{% extends "usuarios/base.html" %}
+
+{% block titulo %}Perfiles{% endblock %}
+
+{% block contenido %}
+<div class="barra-titulo">
+  <h2>Perfiles (roles)</h2>
+</div>
+
+{% if perfiles %}
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Módulos</th>
+      <th>Estado</th>
+      <th class="col-acciones">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in perfiles %}
+    <tr>
+      <td>{{ item.perfil.get_nombre_display }}</td>
+      <td>{{ item.perfil.descripcion|default:"—" }}</td>
+      <td>
+        {% for modulo in item.modulos %}
+          <span class="etiqueta">{{ modulo }}</span>
+        {% empty %}
+          —
+        {% endfor %}
+      </td>
+      <td>
+        {% if item.perfil.activo %}
+          <span class="estado estado--activo">Activo</span>
+        {% else %}
+          <span class="estado estado--inactivo">Inactivo</span>
+        {% endif %}
+      </td>
+      <td class="col-acciones">
+        <a class="boton boton--secundario" href="{% url 'usuarios:perfil_editar' item.perfil.id %}">Editar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="vacio">No hay perfiles registrados todavía. Se crean al ejecutar las migraciones.</p>
+{% endif %}
+{% endblock %}

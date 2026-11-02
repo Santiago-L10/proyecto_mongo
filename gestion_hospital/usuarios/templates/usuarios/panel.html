@@ -1,0 +1,42 @@
+{% extends "usuarios/base.html" %}
+
+{% block titulo %}Panel de Administración{% endblock %}
+
+{% block contenido %}
+<h2>Panel de Administración</h2>
+<p class="subtitulo">Administra los perfiles (roles) y registra usuarios.</p>
+
+<div class="acciones-panel">
+  <a class="boton boton--primario" href="{% url 'usuarios:usuario_crear' %}">Registrar usuario</a>
+</div>
+
+<div class="tarjetas">
+  <a class="tarjeta" href="{% url 'usuarios:perfil_lista' %}">
+    <span class="tarjeta__numero">{{ total_perfiles }}</span>
+    <span class="tarjeta__texto">Perfiles</span>
+  </a>
+  <a class="tarjeta" href="{% url 'usuarios:usuario_crear' %}">
+    <span class="tarjeta__numero">{{ total_usuarios }}</span>
+    <span class="tarjeta__texto">Usuarios</span>
+  </a>
+</div>
+
+<h3>Módulos por rol</h3>
+<p class="ayuda">El acceso a los módulos se define en el código (<code>usuarios/acceso.py</code>).</p>
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>Rol</th>
+      <th>Módulos permitidos</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for rol, modulos in modulos_por_rol.items %}
+    <tr>
+      <td>{{ rol }}</td>
+      <td>{{ modulos|join:", " }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
