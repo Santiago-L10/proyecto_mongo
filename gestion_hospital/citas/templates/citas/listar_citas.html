@@ -1,19 +1,22 @@
-{% extends "citas/layout.html" %}
-
+{% extends 'citas/layout.html' %}
 {% block renderizado %}
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2>{{ titulo }}</h2>
-        <a class="btn btn-primary" href="{% url 'citas:crear_cita' %}">+ Agendar Nueva Cita</a>
-    </div>
-    <p>Total de citas registradas: <strong>{{ total }}</strong></p>
-
-    {% if citas %}
-        {% for c in citas %}
-            {% include "citas/componente_cita.html" with cita=c %}
-        {% endfor %}
-    {% else %}
-        <div class="box-card">
-            <p>No se encontraron citas médicas registradas en el sistema.</p>
-        </div>
-    {% endif %}
+<div class="page-head"><h2>{{ titulo }}</h2>{% if request.rol_citas != 'DOCTOR' %}<a class="btn btn-primary" href="{% url 'citas:crear_cita' %}">Agendar cita</a>{% endif %}</div>
+<p class="page-sub">Consulta las citas a las que tienes acceso. Todos los horarios se muestran en Bogotá.</p>
+<form method="get" action="{% url 'citas:listar_citas' %}" class="box-card filtros">
+    {% include 'citas/formulario_campos.html' %}
+    <div class="btn-group"><button class="btn btn-primary" type="submit">Buscar</button><a class="btn btn-secondary" href="{% url 'citas:listar_citas' %}">Limpiar filtros</a></div>
+</form>
+<p class="page-sub">{{ total }} cita{{ total|pluralize }} encontrada{{ total|pluralize }}</p>
+{% for item in pagina %}
+    {% include 'citas/componente_cita.html' with cita=item.cita acciones=item.acciones %}
+{% empty %}
+    <div class="box-card vacio"><p>No hay citas para estos filtros.</p>{% if request.rol_citas != 'DOCTOR' %}<a href="{% url 'citas:crear_cita' %}">Consultar turnos disponibles</a>{% endif %}</div>
+{% endfor %}
+{% if pagina.has_other_pages %}
+<nav class="paginacion" aria-label="Páginas">
+    {% if pagina.has_previous %}<a href="?{{ parametros }}&amp;page={{ pagina.previous_page_number }}">Anterior</a>{% endif %}
+    <span>Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+    {% if pagina.has_next %}<a href="?{{ parametros }}&amp;page={{ pagina.next_page_number }}">Siguiente</a>{% endif %}
+</nav>
+{% endif %}
 {% endblock %}

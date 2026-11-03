@@ -1,0 +1,10 @@
+{% extends 'citas/layout.html' %}
+{% block renderizado %}
+<a href="{% url 'citas:listar_horarios' %}" class="link-volver">← Volver a horarios</a>
+<div class="box-card form-card"><h2>{% if horario %}Editar horario{% else %}Crear horario{% endif %}</h2>
+<p class="page-sub">Horas de Bogotá. Los turnos se generan con la duración indicada. Los minutos sobrantes al final no generan una consulta.</p>
+<form method="post">{% csrf_token %}
+    {% include 'citas/formulario_campos.html' %}
+    <button type="submit" class="btn btn-primary">Guardar horario</button>
+</form></div>
+{% endblock %}

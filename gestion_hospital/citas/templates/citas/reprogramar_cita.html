@@ -1,0 +1,18 @@
+{% extends 'citas/layout.html' %}
+{% block renderizado %}
+<a href="{% url 'citas:detalle_cita' cita.id %}" class="link-volver">← Volver a la cita</a>
+<h2>Reprogramar cita #{{ cita.id }}</h2>
+<p class="page-sub">{{ cita.paciente.nombre_completo }} · {{ cita.doctor.nombre_completo }}<br>Turno actual: {{ cita.fecha_inicio|date:"d/m/Y H:i" }} · Bogotá</p>
+<div class="box-card form-card"><form method="get">
+    {% include 'citas/formulario_campos.html' with formulario=consulta %}
+    <button type="submit" class="btn btn-secondary">Consultar nueva fecha</button>
+</form></div>
+<div class="box-card form-card">
+{% if disponible and hay_turnos %}
+<form method="post">{% csrf_token %}
+    {% include 'citas/formulario_campos.html' %}
+    <button type="submit" class="btn btn-primary">Confirmar reprogramación</button>
+</form>
+{% else %}<p>No hay turnos disponibles para esta fecha.</p>{{ formulario.errors }}{% endif %}
+</div>
+{% endblock %}

@@ -1,71 +1,24 @@
 {% extends 'citas/layout.html' %}
-
 {% block renderizado %}
+<h2>Agendar una cita</h2>
+<p class="page-sub">1. Elige médico y fecha. 2. Selecciona un turno libre y confirma el paciente.</p>
 <div class="box-card form-card">
-    <h2 class="box-title">Agendar Nueva Cita Medica</h2>
-
-    <form method="POST" action="{% url 'citas:crear_cita' %}">
-        {% csrf_token %}
-        {{ formulario.errors }}
-
-        <h4 class="form-seccion">Datos del Paciente</h4>
-        <div class="campo">
-            <label for="{{ formulario.paciente_id.id_for_label }}">{{ formulario.paciente_id.label }}</label>
-            {{ formulario.paciente_id }}
-        </div>
-
-        <div class="campo">
-            <label>{{ formulario.paciente_documento.label }}</label>
-            {{ formulario.paciente_documento }}
-        </div>
-
-        <div class="campo">
-            <label>{{ formulario.paciente_nombre.label }}</label>
-            {{ formulario.paciente_nombre }}
-        </div>
-
-        <div class="campo">
-            <label>{{ formulario.paciente_telefono.label }}</label>
-            {{ formulario.paciente_telefono }}
-        </div>
-
-        <h4 class="form-seccion">Datos del Especialista</h4>
-        <div class="campo">
-            <label for="{{ formulario.doctor_id.id_for_label }}">{{ formulario.doctor_id.label }}</label>
-            {{ formulario.doctor_id }}
-        </div>
-
-        <div class="campo">
-            <label>{{ formulario.doctor_nombre.label }}</label>
-            {{ formulario.doctor_nombre }}
-        </div>
-
-        <div class="campo">
-            <label>{{ formulario.doctor_especialidad.label }}</label>
-            {{ formulario.doctor_especialidad }}
-        </div>
-
-        <h4 class="form-seccion">Detalles de la Consulta</h4>
-
-        <div class="campo">
-            <label>{{ formulario.fecha_inicio.label }}</label>
-            {{ formulario.fecha_inicio }}
-        </div>
-
-        <div class="campo">
-            <label>{{ formulario.duracion_minutos.label }}</label>
-            {{ formulario.duracion_minutos }}
-        </div>
-
-        <div class="campo">
-            <label>{{ formulario.motivo_consulta.label }}</label>
-            {{ formulario.motivo_consulta }}
-        </div>
-
-        <div class="btn-group">
-            <button type="submit" class="btn btn-primary">Confirmar Agendamiento</button>
-            <a href="{% url 'citas:listar_citas' %}" class="btn btn-secondary">Cancelar</a>
-        </div>
+    <form method="get">
+        {% include 'citas/formulario_campos.html' with formulario=consulta %}
+        <button type="submit" class="btn btn-secondary">Consultar disponibilidad</button>
     </form>
 </div>
+{% if disponible %}
+<div class="box-card form-card">
+    <h3>Confirmar cita · {{ consulta.cleaned_data.fecha|date:"d/m/Y" }}</h3>
+    {% if hay_turnos %}
+    <form method="post">
+        {% csrf_token %}
+        {% include 'citas/formulario_campos.html' %}
+        <button type="submit" class="btn btn-primary">Confirmar agendamiento</button>
+    </form>
+    {% else %}<p>No hay turnos disponibles para este médico y fecha. Prueba con otra fecha o consulta los horarios médicos.</p>{{ formulario.errors }}{% endif %}
+</div>
+{% else %}{{ formulario.non_field_errors }}{% endif %}
+{% if request.gestiona_citas %}<p>Si no aparecen pacientes o médicos, regístralos en <a href="{% url 'usuarios:usuario_crear' %}">Usuarios</a>. El médico debe tener especialidad y un <a href="{% url 'citas:listar_horarios' %}">horario activo</a>.</p>{% endif %}
 {% endblock %}

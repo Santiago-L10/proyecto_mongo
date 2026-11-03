@@ -1,19 +1,12 @@
-<div class="box-card">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 class="box-title" style="margin: 0; border: none;">
-            Paciente: {{ cita.paciente.nombre_completo }}
-        </h3>
-        <span class="badge bg-{{ cita.estado }}">{{ cita.estado }}</span>
+<article class="box-card cita-card estado-{{ cita.estado }}">
+    <div class="cita-head"><h3>#{{ cita.id }} · {{ cita.paciente.nombre_completo }}</h3><span class="badge bg-{{ cita.estado }}">{{ cita.get_estado_display }}</span></div>
+    <div class="cita-body">
+        <p><strong>Médico:</strong> {{ cita.doctor.nombre_completo }}</p>
+        <p><strong>Especialidad:</strong> {{ cita.doctor.especialidad }}</p>
+        <p><strong>Fecha:</strong> {{ cita.fecha_inicio|date:"d/m/Y" }}</p>
+        <p><strong>Turno:</strong> {{ cita.fecha_inicio|date:"H:i" }} – {{ cita.fecha_fin|date:"H:i" }}</p>
+        <p class="full"><strong>Motivo:</strong> {{ cita.motivo_consulta|default:"Sin motivo registrado" }}</p>
     </div>
-    <hr style="border: none; border-top: 1px solid var(--border); margin: 12px 0;">
-
-    <p><strong>Médico:</strong> {{ cita.doctor.nombre_completo }} ({{ cita.doctor.especialidad }})</p>
-    <p><strong>Fecha:</strong> {{ cita.fecha_inicio }} | <strong>Duración:</strong> {{ cita.duracion_minutos }} min</p>
-    <p><strong>Motivo:</strong> {{ cita.motivo_consulta|default:"Sin motivo registrado" }}</p>
-
-    <div class="btn-group">
-        <a class="btn btn-primary" href="{% url 'citas:detalle_cita' cita_id=cita.id %}">Ver Detalle</a>
-        <a class="btn btn-secondary" href="{% url 'citas:actualizar_cita' cita_id=cita.id %}">Editar</a>
-        <a class="btn btn-danger" href="{% url 'citas:eliminar_cita' cita_id=cita.id %}">Eliminar</a>
-    </div>
-</div>
+    <a class="btn btn-primary" href="{% url 'citas:detalle_cita' cita.id %}">Ver detalle</a>
+    {% include 'citas/acciones_cita.html' %}
+</article>

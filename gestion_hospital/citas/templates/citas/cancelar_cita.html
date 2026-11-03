@@ -1,0 +1,11 @@
+{% extends 'citas/layout.html' %}
+{% block renderizado %}
+<a href="{% url 'citas:detalle_cita' cita.id %}" class="link-volver">← Volver a la cita</a>
+<div class="box-card form-card"><h2>Cancelar cita #{{ cita.id }}</h2>
+<p class="page-sub">{{ cita.paciente.nombre_completo }} · {{ cita.fecha_inicio|date:"d/m/Y H:i" }}</p>
+<p>La cita y su historial se conservarán. El turno quedará libre para otro paciente.</p>
+<form method="post">{% csrf_token %}
+    {% include 'citas/formulario_campos.html' %}
+    <button type="submit" class="btn btn-danger">Confirmar cancelación</button>
+</form></div>
+{% endblock %}

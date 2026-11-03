@@ -17,7 +17,7 @@ py -3.12 -m venv venv
 python -m pip install -r requirements.txt
 python -m pip check
 python manage.py check
-python manage.py migrate
+python manage.py migrate --run-syncdb
 python manage.py runserver
 ```
 
@@ -64,8 +64,11 @@ python manage.py migrate citas
 
 Las citas conservan su clave primaria numérica `id`. Registros médicos valida
 esa clave con `Cita.objects.filter(pk=...).exists()`; no necesita una llave
-foránea. Los IDs del paciente y del médico dentro de los snapshots son cadenas
-independientes que se ingresan en el formulario.
+foránea. Pacientes y médicos se seleccionan entre usuarios activos registrados.
+El servidor construye los snapshots y conserva sus datos históricos. Como
+`User` no tiene cédula, `id_user` referencia el ID del usuario.
+La migración `0004` completa los IDs que faltan en usuarios antiguos y mantiene
+los demás datos. Después de actualizar, cerrar sesión y volver a ingresar.
 
 Las plantillas viven en `citas/templates/citas/` y el CSS en
 `citas/static/citas/style.css`, para evitar que oculten el `layout.html` y el
@@ -82,6 +85,23 @@ python manage.py test citas --keepdb --noinput
 ```
 
 Las pruebas usan la base separada `test_gestion_hospital_db`. Comprueban el CRUD
-con persistencia real de subdocumentos, el vínculo con registros médicos, la
-conversión de horarios antiguos, los errores del formulario y la separación de
-plantillas y recursos estáticos.
+con persistencia real de subdocumentos, horarios, cruces de agenda, solicitudes
+simultáneas, permisos, reprogramación, estados, historial, referencias a registros
+médicos, migraciones, CSRF y separación de plantillas y recursos estáticos.
+
+## Uso de citas
+
+1. Iniciar sesión en `/panel/login/`.
+2. Registrar usuarios con rol `PACIENTE` y `DOCTOR`. El médico debe tener especialidad.
+3. Entrar a **Horarios médicos** y crear sus franjas semanales, por ejemplo lunes
+   de 08:00 a 12:00 con consultas de 30 minutos.
+4. En **Agendar cita**, seleccionar médico y fecha, consultar disponibilidad,
+   seleccionar paciente y turno, indicar el motivo y confirmar.
+5. Desde el detalle se puede reprogramar, cancelar con motivo o avanzar la atención,
+   según el rol y el estado. Las horas se interpretan y muestran en Bogotá.
+
+Administración y recepción gestionan la agenda; cada médico ve sus citas y
+administra sus horarios; cada paciente ve, agenda, reprograma y cancela sus citas
+futuras. Solo administración puede eliminar citas canceladas sin registros médicos.
+
+Ver [reglas, pruebas y operación de la agenda](docs/citas.md).

@@ -1,24 +1,11 @@
 {% extends 'citas/layout.html' %}
-
 {% block renderizado %}
-<div class="box-card confirm-card">
-    <h2>¿Confirmar Eliminacion?</h2>
-    <p>Esta accion eliminara de forma irreversible la cita medica de la base de datos de MongoDB.</p>
-
-    <div class="resumen">
-        <p><strong>ID:</strong> {{ cita.id }}</p>
-        <p><strong>Paciente:</strong> {{ cita.paciente.nombre_completo }}</p>
-        <p><strong>Medico:</strong> {{ cita.doctor.nombre_completo }}</p>
-        <p><strong>Fecha:</strong> {{ cita.fecha_inicio }}</p>
-    </div>
-
-    <form method="POST" action="{% url 'citas:eliminar_cita' cita_id=cita.id %}">
-        {% csrf_token %}
-
-        <div class="btn-group">
-            <button type="submit" class="btn btn-danger">Si, Eliminar Cita</button>
-            <a href="{% url 'citas:detalle_cita' cita_id=cita.id %}" class="btn btn-secondary">Cancelar</a>
-        </div>
-    </form>
-</div>
+<a href="{% url 'citas:detalle_cita' cita.id %}" class="link-volver">← Volver a la cita</a>
+<div class="box-card confirm-card"><h2>Eliminar cita cancelada #{{ cita.id }}</h2>
+<p>{{ cita.paciente.nombre_completo }} · {{ cita.fecha_inicio|date:"d/m/Y H:i" }}</p>
+<p>Se eliminará definitivamente su historial. Las citas con registros médicos deben conservarse.</p>
+<form method="post">{% csrf_token %}
+    {% include 'citas/formulario_campos.html' %}
+    <button type="submit" class="btn btn-danger">Eliminar definitivamente</button>
+</form></div>
 {% endblock %}

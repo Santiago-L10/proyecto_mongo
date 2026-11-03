@@ -1,8 +1,22 @@
 from django.contrib import admin
 from .models import HorarioMedico, Cita
 
+
+class ConsultaAgendaAdmin(admin.ModelAdmin):
+    # Los formularios del módulo aplican las reglas y el bloqueo de agenda.
+    # El admin queda disponible para consulta, sin una vía de escritura paralela.
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 @admin.register(HorarioMedico)
-class HorarioMedicoAdmin(admin.ModelAdmin):
+class HorarioMedicoAdmin(ConsultaAgendaAdmin):
     list_display = ('doctor_nombre', 'dia_semana', 'minuto_inicio', 'minuto_fin', 'activo')
     list_filter = ('dia_semana', 'activo')
 
@@ -12,10 +26,9 @@ class HorarioMedicoAdmin(admin.ModelAdmin):
 
 
 @admin.register(Cita)
-class CitaAdmin(admin.ModelAdmin):
+class CitaAdmin(ConsultaAgendaAdmin):
     list_display = ('paciente_nombre', 'doctor_nombre', 'fecha_inicio', 'duracion_minutos', 'estado')
     list_filter = ('estado', 'fecha_inicio')
-    search_fields = ('paciente__nombre_completo', 'doctor__nombre_completo', 'paciente__id_user')
 
     def paciente_nombre(self, obj):
         return obj.paciente.get('nombre_completo', '-') if obj.paciente else "-"

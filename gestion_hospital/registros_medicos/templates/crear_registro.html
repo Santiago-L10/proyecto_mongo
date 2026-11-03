@@ -23,7 +23,7 @@
                         id="cita_id" 
                         name="cita_id" 
                         class="form-input" 
-                        placeholder="Ej. 652f1e2b8c9d0e1a2b3c4d5e (Dejar vacío si es urgencia)"
+                        placeholder="Ej. 120 (Dejar vacío si es urgencia)"
                         value="{{ request.POST.cita_id|default:'' }}"
                     >
                     {% if form.cita_id.errors %}

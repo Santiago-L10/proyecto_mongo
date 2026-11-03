@@ -1,0 +1,6 @@
+<div class="btn-group">
+    {% if acciones.editar %}<a class="btn btn-secondary" href="{% url 'citas:actualizar_cita' cita.id %}">Actualizar estado</a>{% endif %}
+    {% if acciones.reprogramar %}<a class="btn btn-secondary" href="{% url 'citas:reprogramar_cita' cita.id %}">Reprogramar</a>{% endif %}
+    {% if acciones.cancelar %}<a class="btn btn-danger" href="{% url 'citas:cancelar_cita' cita.id %}">Cancelar cita</a>{% endif %}
+    {% if acciones.eliminar %}<a class="btn btn-danger" href="{% url 'citas:eliminar_cita' cita.id %}">Eliminar cancelada</a>{% endif %}
+</div>

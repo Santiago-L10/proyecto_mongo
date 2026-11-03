@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import RegistroMedico, EstudioLaboratorio
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from citas.servicios import guardar_registro_medico
 from .forms.registros_forms import RegistroMedicoForm
 from .forms.laboratorio_forms import EstudioLaboratorioForm
 from django.utils import timezone
@@ -78,7 +79,11 @@ def crear_registro_medico(request):
                 notas_adicionales=str(datos_limpios.get('notas_adicionales') or '')
             )
 
-            nuevo_registro.save()
+            try:
+                guardar_registro_medico(nuevo_registro)
+            except ValidationError as error:
+                form.add_error('cita_id', error)
+                return render(request, 'crear_registro.html', {'form': form})
 
             return redirect('registros_medicos:listar_registros_medicos')
     else:

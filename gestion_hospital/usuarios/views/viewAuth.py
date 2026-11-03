@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from ..forms.formLogin import LoginForm
 from .viewComunes import nombre_rol
@@ -9,17 +10,14 @@ def ruta_por_rol(rol):
     if rol == "ADMIN":
         return "/panel/"
     elif rol == "DOCTOR":
-        # aquí va el path del módulo del doctor (registros médicos / citas)
-        return "/doctor/"
+        return "/citas/"
     elif rol == "PACIENTE":
-        # aquí va el path del módulo del paciente (citas)
-        return "/paciente/"
+        return "/citas/"
     elif rol == "FARMACEUTICO":
         # aquí va el path del módulo de farmacia
         return "/farmacia/"
     elif rol == "RECEPCIONISTA":
-        # aquí va el path del módulo de recepción (citas / facturación)
-        return "/recepcion/"
+        return "/citas/"
     return "/panel/"
 
 
@@ -30,10 +28,14 @@ def login_sesion(request):
         if form.is_valid():
             usuario = form.usuario
             rol = nombre_rol(usuario)
+            request.session.cycle_key()
             request.session["user_id"] = str(usuario.id)
             request.session["email"] = usuario.email
             request.session["rol"] = rol
             request.session["nombre"] = usuario.first_name + " " + usuario.last_name
+            destino = request.GET.get('next', '')
+            if destino and url_has_allowed_host_and_scheme(destino, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+                return redirect(destino)
             return redirect(ruta_por_rol(rol))
     else:
         form = LoginForm()

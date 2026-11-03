@@ -1,0 +1,11 @@
+{% extends 'citas/layout.html' %}
+{% block renderizado %}
+<div class="page-head"><h2>Horarios médicos</h2><a class="btn btn-primary" href="{% url 'citas:crear_horario' %}">Crear horario</a></div>
+<p class="page-sub">Disponibilidad semanal recurrente · Bogotá. Puedes crear franjas separadas para la mañana y la tarde.</p>
+<div class="box-card tabla-contenedor">
+<table><thead><tr><th>Médico</th><th>Día</th><th>Horario</th><th>Consulta</th><th>Estado</th><th>Acción</th></tr></thead><tbody>
+{% for item in horarios %}
+<tr><td>{{ item.horario.doctor.nombre_completo }}</td><td>{{ item.horario.get_dia_semana_display }}</td><td>{{ item.inicio }} – {{ item.fin }}</td><td>{{ item.horario.duracion_consulta_minutos }} min</td><td>{{ item.horario.activo|yesno:"Activo,Inactivo" }}</td><td><a href="{% url 'citas:editar_horario' item.horario.id %}">Editar</a></td></tr>
+{% empty %}<tr><td colspan="6">Todavía no hay horarios. Crea uno para habilitar el agendamiento.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

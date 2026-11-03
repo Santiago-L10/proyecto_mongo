@@ -16,17 +16,19 @@ class PacienteSnapshot(models.Model):
     id = models.CharField(max_length=24)
     id_user = models.CharField(max_length=50)
     nombre_completo = models.CharField(max_length=200)
-    telefono = models.CharField(max_length=20)
+    telefono = models.CharField(max_length=30, blank=True)
 
     class Meta:
         abstract = True
 
     def __str__(self):
-        return f"{self.nombre_completo} - CC: {self.id_user}"
+        return f"{self.nombre_completo} - Usuario: {self.id_user}"
 
 class HorarioMedico(models.Model):
+    DIAS = [(0, 'Lunes'), (1, 'Martes'), (2, 'Miércoles'), (3, 'Jueves'),
+            (4, 'Viernes'), (5, 'Sábado'), (6, 'Domingo')]
     doctor = models.EmbeddedField(model_container=DoctorSnapshot)
-    dia_semana = models.IntegerField()
+    dia_semana = models.IntegerField(choices=DIAS)
     minuto_inicio = models.IntegerField()
     minuto_fin = models.IntegerField()
     duracion_consulta_minutos = models.IntegerField(default=30)
@@ -34,6 +36,7 @@ class HorarioMedico(models.Model):
     activo = models.BooleanField(default=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
+    version = models.PositiveIntegerField(default=1)
 
     class Meta:
         db_table = "horarios_medicos"
@@ -44,11 +47,12 @@ class HorarioMedico(models.Model):
 
 class Cita(models.Model):
     ESTADOS_CITA = [
-        ('PROGRAMADA', 'PROGRAMADA'),
-        ('EN_ESPERA', 'EN_ESPERA'),
-        ('EN_CONSULTA', 'EN_CONSULTA'),
-        ('COMPLETADA', 'COMPLETADA'),
-        ('CANCELADA', 'CANCELADA'),
+        ('PROGRAMADA', 'Programada'),
+        ('EN_ESPERA', 'En espera'),
+        ('EN_CONSULTA', 'En consulta'),
+        ('COMPLETADA', 'Completada'),
+        ('CANCELADA', 'Cancelada'),
+        ('NO_ASISTIO', 'No asistió'),
     ]
 
     paciente = models.EmbeddedField(model_container=PacienteSnapshot)
@@ -62,9 +66,21 @@ class Cita(models.Model):
     motivo_cancelacion = models.TextField(null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
+    version = models.PositiveIntegerField(default=1)
+    historial = models.JSONField(default=list, blank=True)
 
     class Meta:
         db_table = "citas"
 
     def __str__(self):
         return f"Cita: {self.paciente['nombre_completo']} - {self.estado}"
+
+
+class BloqueoAgenda(models.Model):
+    """Serializa las escrituras del módulo, incluso entre procesos del servidor."""
+    clave = models.CharField(max_length=40, unique=True)
+    token = models.CharField(max_length=32)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'citas_bloqueos_agenda'

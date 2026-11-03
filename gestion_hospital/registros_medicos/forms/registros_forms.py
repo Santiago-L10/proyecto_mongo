@@ -44,4 +44,4 @@ class RegistroMedicoForm(forms.Form):
         if not Cita.objects.filter(pk=clave).exists():
             raise forms.ValidationError("No existe ninguna cita registrada con este ID en la base de datos.")
 
-        return cita_id
+        return str(clave)
