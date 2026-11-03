@@ -39,7 +39,7 @@ class RegistroMedicoForm(forms.Form):
             clave = Cita._meta.pk.to_python(cita_id)
 
         except (ValidationError, ValueError, TypeError):
-            raise forms.ValidationError("El ID de la cita debe ser un número entero válido.")
+            raise forms.ValidationError("El ID ingresado no tiene un formato ObjectId válido.")
 
         if not Cita.objects.filter(pk=clave).exists():
             raise forms.ValidationError("No existe ninguna cita registrada con este ID en la base de datos.")

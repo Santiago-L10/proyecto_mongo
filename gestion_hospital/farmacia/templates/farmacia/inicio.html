@@ -1,0 +1,13 @@
+{% extends 'farmacia/layout.html' %}
+
+{% block renderizado %}
+<h2>Bienvenido a la Farmacia</h2>
+<p>Desde aquí puede gestionar el catálogo y el inventario de medicamentos del hospital.</p>
+
+<div class="tarjeta">
+    <h3>Catálogo e inventario</h3>
+    <p>Medicamentos registrados: <strong>{{ total }}</strong></p>
+    <a class="boton" href="{% url 'farmacia:medicamentos' %}">Ver medicamentos</a>
+    <a class="boton" href="{% url 'farmacia:crearMedicamento' %}">Crear medicamento</a>
+</div>
+{% endblock %}

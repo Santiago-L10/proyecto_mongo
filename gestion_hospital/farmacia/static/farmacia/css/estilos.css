@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #333333;
+}
+
+
+.encabezado {
+    background-color: #1f4e79;
+    color: #ffffff;
+    padding: 15px 30px;
+}
+
+.encabezado h1 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.menu a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+
+.contenido {
+    max-width: 1000px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 25px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}
+
+h2 {
+    color: #1f4e79;
+    margin-top: 0;
+}
+
+.mensaje {
+    background-color: #f2f2f2;
+    border-left: 4px solid #2e75b6;
+    padding: 12px;
+    margin: 15px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th {
+    background-color: #2e75b6;
+    color: #ffffff;
+    padding: 10px;
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+h3 {
+    color: #1f4e79;
+    border-bottom: 1px solid #d9d9d9;
+    padding-bottom: 6px;
+}
+
+.campo {
+    margin-bottom: 12px;
+}
+
+.campo label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #bfbfbf;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.campo input[type="checkbox"] {
+    width: auto;
+}
+
+.boton {
+    display: inline-block;
+    background-color: #2e75b6;
+    color: #ffffff;
+    padding: 7px 12px;
+    margin: 2px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.boton:hover {
+    background-color: #1f4e79;
+}
+
+.boton-gris {
+    background-color: #7f7f7f;
+}
+
+.boton-gris:hover {
+    background-color: #595959;
+}
+
+.boton-rojo {
+    background-color: #e74c3c;
+}
+
+.boton-rojo:hover {
+    background-color: #c0392b;
+}
+
+.tarjeta {
+    display: inline-block;
+    width: 45%;
+    vertical-align: top;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #d9d9d9;
+    border-top: 4px solid #2e75b6;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.tarjeta h3 {
+    color: #1f4e79;
+    margin-top: 0;
+}
+
+
+.pie {
+    text-align: center;
+    color: #7f7f7f;
+    font-size: 13px;
+    padding: 20px;
+}
