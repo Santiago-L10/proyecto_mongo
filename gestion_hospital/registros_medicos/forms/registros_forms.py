@@ -1,7 +1,6 @@
 from django import forms
-from bson import ObjectId
-from bson.errors import InvalidId
-# from citas.models import Cita
+from django.core.exceptions import ValidationError
+from citas.models import Cita
 
 
 class RegistroMedicoForm(forms.Form):
@@ -37,12 +36,12 @@ class RegistroMedicoForm(forms.Form):
         cita_id = cita_id.strip()
 
         try:
-            obj_id = ObjectId(cita_id)
+            clave = Cita._meta.pk.to_python(cita_id)
 
-        except InvalidId:
-            raise forms.ValidationError("El ID de la cita no tiene un formato ObjectId válido.")
+        except (ValidationError, ValueError, TypeError):
+            raise forms.ValidationError("El ID de la cita debe ser un número entero válido.")
 
-        if not Cita.objects.filter(_id=obj_id).exists():
+        if not Cita.objects.filter(pk=clave).exists():
             raise forms.ValidationError("No existe ninguna cita registrada con este ID en la base de datos.")
 
         return cita_id
