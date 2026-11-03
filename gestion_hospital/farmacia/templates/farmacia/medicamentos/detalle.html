@@ -1,0 +1,49 @@
+{% extends 'farmacia/layout.html' %}
+
+{% block renderizado %}
+<h2>{{ medicamento.nombre_generico }}</h2>
+
+<table>
+    <tr>
+        <th>Nombre comercial</th>
+        <td>{{ medicamento.nombre_comercial }}</td>
+    </tr>
+    <tr>
+        <th>Presentación</th>
+        <td>{{ medicamento.presentacion }}</td>
+    </tr>
+    <tr>
+        <th>Concentración</th>
+        <td>{{ medicamento.concentracion }}</td>
+    </tr>
+    <tr>
+        <th>Lote</th>
+        <td>{{ medicamento.lote }}</td>
+    </tr>
+    <tr>
+        <th>Fecha de vencimiento</th>
+        <td>{{ medicamento.fecha_vencimiento|date:'Y-m-d' }}</td>
+    </tr>
+    <tr>
+        <th>Precio unitario</th>
+        <td>$ {{ medicamento.precio_unitario }}</td>
+    </tr>
+    <tr>
+        <th>Stock disponible</th>
+        <td>{{ medicamento.stock_disponible }}</td>
+    </tr>
+    <tr>
+        <th>Requiere receta</th>
+        <td>{% if medicamento.requiere_receta %}Sí{% else %}No{% endif %}</td>
+    </tr>
+    <tr>
+        <th>Interacciones</th>
+        <td>{{ medicamento.interacciones|join:', ' }}</td>
+    </tr>
+</table>
+
+<p>
+    <a class="boton" href="{% url 'farmacia:actualizarMedicamento' medicamento.id %}">Editar</a>
+    <a class="boton boton-gris" href="{% url 'farmacia:medicamentos' %}">Volver</a>
+</p>
+{% endblock %}

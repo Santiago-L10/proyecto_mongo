@@ -1,0 +1,68 @@
+{% extends 'farmacia/layout.html' %}
+
+{% block renderizado %}
+<h2>{{ titulo }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h3>Datos del medicamento</h3>
+
+    <div class="campo">
+        <label>Nombre genérico (Ej: Acetaminofén)</label>
+        <input type="text" name="nombre_generico" value="{{ medicamento.nombre_generico }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Nombre comercial (Ej: Dolex)</label>
+        <input type="text" name="nombre_comercial" value="{{ medicamento.nombre_comercial }}">
+    </div>
+
+    <div class="campo">
+        <label>Presentación (Ej: Tabletas, Jarabe)</label>
+        <input type="text" name="presentacion" value="{{ medicamento.presentacion }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Concentración (Ej: 500 mg)</label>
+        <input type="text" name="concentracion" value="{{ medicamento.concentracion }}" required>
+    </div>
+
+    <h3>Inventario</h3>
+
+    <div class="campo">
+        <label>Lote (Ej: L2026-001)</label>
+        <input type="text" name="lote" value="{{ medicamento.lote }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Fecha de vencimiento (AAAA-MM-DD, Ej: 2027-12-31)</label>
+        <input type="text" name="fecha_vencimiento" value="{{ medicamento.fecha_vencimiento|date:'Y-m-d' }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Precio unitario (Ej: 1500)</label>
+        <input type="text" name="precio_unitario" value="{{ medicamento.precio_unitario }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Stock disponible (Ej: 200)</label>
+        <input type="text" name="stock_disponible" value="{{ medicamento.stock_disponible }}" required>
+    </div>
+
+    <div class="campo">
+        <label>Interacciones (separadas por coma, Ej: Warfarina, Alcohol)</label>
+        <input type="text" name="interacciones" value="{{ medicamento.interacciones|join:', ' }}">
+    </div>
+
+    <div class="campo">
+        <label>
+            <input type="checkbox" name="requiere_receta" {% if medicamento.requiere_receta %}checked{% endif %}>
+            Requiere receta
+        </label>
+    </div>
+
+    <button class="boton" type="submit">Guardar</button>
+    <a class="boton boton-rojo" href="{% url 'farmacia:medicamentos' %}">Cancelar</a>
+</form>
+{% endblock %}

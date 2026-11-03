@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Farmacia - Gestión Hospital</title>
+        <link rel="stylesheet" href="{% static 'farmacia/css/estilos.css' %}">
+    </head>
+    <body>
+        <header class="encabezado">
+            <h1>Gestión Hospital - Farmacia</h1>
+            <nav class="menu">
+                <a href="{% url 'farmacia:inicio' %}">Farmacia</a>
+                <a href="{% url 'farmacia:medicamentos' %}">Medicamentos</a>
+            </nav>
+        </header>
+
+        <main class="contenido">
+            {% block renderizado %}
+            {% endblock %}
+        </main>
+
+        <footer class="pie">Gestión Hospital - Módulo de farmacia</footer>
+    </body>
+</html>
