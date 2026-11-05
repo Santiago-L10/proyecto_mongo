@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block renderizado %}
+<div class="box-card form-card">
+    <h2 class="box-title">Actualizar Cita #{{ cita.id }}</h2>
+    <div class="resumen">
+        <p><strong>Paciente:</strong> {{ cita.paciente.nombre_completo }}</p>
+        <p><strong>Medico:</strong> {{ cita.doctor.nombre_completo }}</p>
+    </div>
+
+    <form method="POST" action="{% url 'citas:actualizar_cita' cita_id=cita.id %}">
+        {% csrf_token %}
+
+        <div class="campo">
+            <label>{{ formulario.estado.label }}</label>
+            {{ formulario.estado }}
+        </div>
+
+        <div class="campo">
+            <label>{{ formulario.motivo_consulta.label }}</label>
+            {{ formulario.motivo_consulta }}
+        </div>
+
+        <div class="campo">
+            <label>{{ formulario.motivo_cancelacion.label }}</label>
+            {{ formulario.motivo_cancelacion }}
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{% url 'citas:detalle_cita' cita_id=cita.id %}" class="btn btn-secondary">Regresar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

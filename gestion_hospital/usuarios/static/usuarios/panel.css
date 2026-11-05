@@ -280,6 +280,11 @@ code {
   color: var(--gris-500);
 }
 
+.estado--error {
+  background: var(--rojo-claro);
+  color: var(--rojo);
+}
+
 .etiqueta {
   display: inline-block;
   min-width: 26px;
@@ -440,4 +445,181 @@ code {
   padding: 14px 0;
   font-size: 0.85rem;
   text-align: center;
+}
+
+/* Filtro por rol ---------------------------------------------------------- */
+
+.filtro-rol {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--blanco);
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  box-shadow: var(--sombra);
+}
+
+.filtro-rol label {
+  font-weight: 600;
+  color: var(--gris-700);
+  font-size: 0.9rem;
+}
+
+.filtro-rol select {
+  padding: 8px 12px;
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: var(--blanco);
+  color: var(--gris-900);
+}
+
+/* Ventanas emergentes ----------------------------------------------------- */
+
+.modal {
+  border: none;
+  border-radius: var(--radio);
+  padding: 24px;
+  max-width: 560px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(31, 41, 55, 0.3);
+  color: var(--gris-900);
+}
+
+.modal::backdrop {
+  background: rgba(31, 41, 55, 0.45);
+}
+
+.modal h3 {
+  margin: 0 0 14px;
+  color: var(--azul-oscuro);
+}
+
+.detalle {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 8px 16px;
+  margin: 0 0 18px;
+}
+
+.detalle dt {
+  font-weight: 600;
+  color: var(--gris-700);
+}
+
+.detalle dd {
+  margin: 0;
+  color: var(--gris-900);
+}
+
+/* Interruptor de estado ---------------------------------------------------- */
+
+.campo--estado {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.campo--estado .switch {
+  display: inline-block;
+  position: relative;
+  width: 48px;
+  height: 26px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.campo--estado .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch__slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gris-300);
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+
+.switch__slider::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background: var(--blanco);
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+}
+
+.campo--estado .switch input:checked + .switch__slider {
+  background: var(--azul);
+}
+
+.campo--estado .switch input:checked + .switch__slider::before {
+  transform: translateX(22px);
+}
+
+/* Inputs dentro del modal -------------------------------------------------- */
+
+.modal input[type="text"],
+.modal input[type="email"] {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--gris-300);
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--gris-900);
+  background: var(--blanco);
+}
+
+.modal input[type="text"]:focus,
+.modal input[type="email"]:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px var(--azul-claro);
+}
+
+/* Inicio de sesión --------------------------------------------------------- */
+
+.login-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--gris-100);
+}
+
+.login {
+  width: 100%;
+  max-width: 380px;
+  padding: 0 20px;
+}
+
+.login__logo {
+  text-align: center;
+  color: var(--azul);
+  font-size: 1.3rem;
+  margin: 0 0 4px;
+}
+
+.login h2 {
+  text-align: center;
+  color: var(--gris-700);
+  margin-bottom: 20px;
+}
+
+.login .formulario {
+  max-width: none;
 }

@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block renderizado %}
+    <h2>{{ titulo }}</h2>
+    <p class="page-sub">Registros en estado <strong>{{ filtro_activo }}</strong>: {{ total }}</p>
+
+    {% if citas %}
+        {% for c in citas %}
+            {% include 'componente_cita.html' with cita=c %}
+        {% endfor %}
+    {% else %}
+        <div class="box-card vacio">
+            <p>No existen citas con el estado <strong>{{ filtro_activo }}</strong> en este momento.</p>
+            <a class="btn btn-primary" href="{% url 'citas:listar_citas' %}">Ver todas las citas</a>
+        </div>
+    {% endif %}
+{% endblock %}
