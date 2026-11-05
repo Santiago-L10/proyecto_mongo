@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block renderizado %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>{{ titulo }}</h2>
+        <a class="btn btn-primary" href="{% url 'citas:crear_cita' %}">+ Agendar Nueva Cita</a>
+    </div>
+    <p>Total de citas registradas: <strong>{{ total }}</strong></p>
+
+    {% if citas %}
+        {% for c in citas %}
+            {% include "componente_cita.html" with cita=c %}
+        {% endfor %}
+    {% else %}
+        <div class="box-card">
+            <p>No se encontraron citas médicas registradas en el sistema.</p>
+        </div>
+    {% endif %}
+{% endblock %}
