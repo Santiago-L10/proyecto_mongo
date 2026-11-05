@@ -46,7 +46,7 @@ class AgendaTests(TransactionTestCase):
 
     def setUp(self):
         self.admin = self.usuario('Administracion', 'ADMIN')
-        self.recepcion = self.usuario('Recepcion', 'RECEPCIONISTA')
+        self.recepcion = self.usuario('Administrativo', 'ADMINISTRATIVO')
         self.doctor = self.usuario('Medico', 'DOCTOR')
         self.doctor2 = self.usuario('OtroMedico', 'DOCTOR')
         self.paciente = self.usuario('Paciente', 'PACIENTE')

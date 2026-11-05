@@ -1,6 +1,6 @@
 :root {
-  --azul: #2563eb;
-  --azul-oscuro: #1e40af;
+  --azul: #1f4e79;
+  --azul-oscuro: #0b2e5c;
   --azul-claro: #eff6ff;
   --gris-900: #1f2937;
   --gris-700: #374151;
@@ -78,6 +78,22 @@ a {
 
 .menu a:hover {
   background: var(--azul-oscuro);
+}
+
+.selector-modulo {
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 7px 12px;
+  border-radius: var(--radio);
+  font-size: 0.95rem;
+  cursor: pointer;
+  align-self: center;
+}
+
+.selector-modulo:focus {
+  outline: none;
+  border-color: var(--blanco);
 }
 
 /* Contenido --------------------------------------------------------------- */

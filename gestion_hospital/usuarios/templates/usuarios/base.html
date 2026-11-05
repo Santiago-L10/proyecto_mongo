@@ -17,6 +17,13 @@
         <a href="{% url 'usuarios:usuario_lista' %}">Usuarios</a>
         <a href="{% url 'usuarios:usuario_crear' %}">Registrar usuario</a>
         <a href="{% url 'usuarios:log_lista' %}">Logs</a>
+        <select class="selector-modulo" onchange="if (this.value) window.location.href = this.value;">
+          <option value="">Ir a módulo…</option>
+          <option value="{% url 'citas:listar_citas' %}">Citas</option>
+          <option value="{% url 'farmacia:inicio' %}">Farmacia</option>
+          <option value="{% url 'facturacion:inicio' %}">Facturación</option>
+          <option value="{% url 'registros_medicos:listar_registros_medicos' %}">Registros Médicos</option>
+        </select>
         {% if request.session.user_id %}
           <a href="{% url 'usuarios:logout_sesion' %}">Cerrar sesión ({{ request.session.nombre }})</a>
         {% else %}

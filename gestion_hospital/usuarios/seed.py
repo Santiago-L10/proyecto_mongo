@@ -5,7 +5,7 @@ DESCRIPCIONES = {
     "DOCTOR": "Gestión de citas e historiales médicos.",
     "PACIENTE": "Acceso a sus citas.",
     "FARMACEUTICO": "Gestión de farmacia y recetas.",
-    "RECEPCIONISTA": "Gestión de citas y facturación.",
+    "ADMINISTRATIVO": "Gestión de facturación.",
 }
 
 

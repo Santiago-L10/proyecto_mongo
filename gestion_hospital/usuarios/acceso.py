@@ -13,7 +13,7 @@ MODULOS_POR_ROL = {
     "DOCTOR": ["citas", "registros_medicos"],
     "PACIENTE": ["citas"],
     "FARMACEUTICO": ["farmacia"],
-    "RECEPCIONISTA": ["citas", "facturacion"],
+    "ADMINISTRATIVO": ["citas", "facturacion"],
 }
 
 # Qué sección de datos extra se llena según el rol al registrar un usuario.

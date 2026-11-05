@@ -10,14 +10,17 @@ def ruta_por_rol(rol):
     if rol == "ADMIN":
         return "/panel/"
     elif rol == "DOCTOR":
-        return "/citas/"
+        # DOCTOR: registros médicos
+        return "/registros_medicos/"
     elif rol == "PACIENTE":
+        # PACIENTE: citas
         return "/citas/"
     elif rol == "FARMACEUTICO":
-        # aquí va el path del módulo de farmacia
-        return "/farmacia/"
-    elif rol == "RECEPCIONISTA":
-        return "/citas/"
+        # FARMACEUTICO: farmacia
+        return "/farmacia/homeFarm/"
+    elif rol == "ADMINISTRATIVO":
+        # ADMINISTRATIVO: facturación
+        return "/facturacion/homeFact/"
     return "/panel/"
 
 

@@ -10,7 +10,7 @@ from django.utils import timezone
 from usuarios.models import User
 
 ZONA = 'America/Bogota'
-GESTORES = ('ADMIN', 'RECEPCIONISTA')
+GESTORES = ('ADMIN', 'ADMINISTRATIVO')
 
 
 def acceso_citas(vista):

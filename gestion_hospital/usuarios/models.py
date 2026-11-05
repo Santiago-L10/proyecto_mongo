@@ -1,5 +1,4 @@
 from djongo import models
-from .identificadores import nuevo_id_usuario
 
 class Rol(models.Model):
 
@@ -8,7 +7,7 @@ class Rol(models.Model):
         DOCTOR = "DOCTOR", "Doctor"
         PACIENTE = "PACIENTE", "Paciente"
         FARMACEUTICO = "FARMACEUTICO", "Farmacéutico"
-        RECEPCIONISTA = "RECEPCIONISTA", "Recepcionista"
+        ADMINISTRATIVO = "ADMINISTRATIVO", "Administrativo"
 
     nombre = models.CharField(max_length=20, choices=Nombre.choices)
 
@@ -59,10 +58,6 @@ class AntecedentesClinicos(models.Model):
 
 
 class User(models.Model):
-
-    # Evita depender del contador AutoField de Djongo cuando la colección ya
-    # existía antes de syncdb. Se conserva el atributo .id usado por las apps.
-    id = models.CharField(max_length=24, primary_key=True, default=nuevo_id_usuario, editable=False)
 
     class Activo(models.TextChoices):
         SI = "SI", "Sí"
