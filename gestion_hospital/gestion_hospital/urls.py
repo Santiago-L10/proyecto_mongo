@@ -15,6 +15,5 @@ urlpatterns = [
     path('registros_medicos/', include('registros_medicos.urls')),
     path('facturacion/', include('facturacion.urls')),
     path('farmacia/', include('farmacia.urls')),
-    # La entrada al sistema es el login; según el rol se redirige a su módulo.
     path('', lambda request: redirect('usuarios:login_sesion')),
 ]

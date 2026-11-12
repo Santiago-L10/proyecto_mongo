@@ -20,7 +20,6 @@ def crear_roles_iniciales(sender, **kwargs):
         )
 
 
-#Crea el usuario administrador por defecto si no existe.
 def crear_admin_inicial(sender, **kwargs):
     existe = models.User.objects.filter(email="admin@hospital.com").first()
     if existe is not None:

@@ -10,7 +10,7 @@ from ..forms.formUsuario import UsuarioEditarForm, UsuarioForm
 from .viewComunes import nombre_rol, paramToId
 
 
-#Paso 1: elegir el rol del nuevo usuario.
+
 def usuario_crear(request):
     if request.method == "POST":
         form = SeleccionRolForm(request.POST)
@@ -24,7 +24,7 @@ def usuario_crear(request):
     return render(request, "usuarios/usuarios/crear_rol.html", {"form": form})
 
 
-#Paso 2: llenar los datos del usuario según el rol elegido.
+
 def usuario_crear_datos(request, rol_nombre):
     perfiles = {}
     for perfil in models.Perfil.objects.all():
@@ -55,7 +55,7 @@ def usuario_crear_datos(request, rol_nombre):
     return render(request, "usuarios/usuarios/crear.html", contexto)
 
 
-#Listar los usuarios, con filtro por rol.
+
 def usuario_lista(request):
     rol_sel = request.GET.get("rol", "")
 
@@ -88,7 +88,7 @@ def usuario_lista(request):
     return render(request, "usuarios/usuarios/lista.html", contexto)
 
 
-#Actualizar los datos básicos de un usuario (rol y fecha de creación no se tocan).
+
 def usuario_editar(request, usuario_id):
     user = get_object_or_404(models.User, id=paramToId(usuario_id))
     if request.method == "POST":
@@ -105,7 +105,6 @@ def usuario_editar(request, usuario_id):
     return redirect(url)
 
 
-#Eliminar un usuario (solo por POST).
 def usuario_eliminar(request, usuario_id):
     user = get_object_or_404(models.User, id=paramToId(usuario_id))
     if request.method == "POST":

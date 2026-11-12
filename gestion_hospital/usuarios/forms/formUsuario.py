@@ -5,7 +5,7 @@ from .. import models
 from ..acceso import SECCION_POR_ROL
 
 
-#datos del usuario.
+
 class UsuarioForm(forms.Form):
 
     first_name = forms.CharField(max_length=100, label="Nombres")
@@ -66,7 +66,7 @@ class UsuarioForm(forms.Form):
             raise forms.ValidationError("Ya existe un usuario con ese correo.")
         return email
 
-    #Convierte texto separado por líneas o comas en una lista.
+
     @staticmethod
     def _a_lista(texto):
         if not texto:
@@ -78,7 +78,7 @@ class UsuarioForm(forms.Form):
                 items.append(item)
         return items
 
-    #Convierte los campos de cirugía del formulario en la lista que guarda la BD.
+
     def _a_cirugias(self, datos):
         procedimiento = datos.get("cirugia_procedimiento", "").strip()
         if not procedimiento:
@@ -91,7 +91,7 @@ class UsuarioForm(forms.Form):
             }
         ]
 
-    #djongo espera dicts (y listas de dicts) en los campos embebidos.
+
     def guardar(self):
         datos = self.cleaned_data
         user = models.User(
@@ -123,7 +123,7 @@ class UsuarioForm(forms.Form):
         return user
 
 
-#Editar los datos básicos de un usuario (rol y fecha de creación no se tocan).
+
 class UsuarioEditarForm(forms.Form):
 
     first_name = forms.CharField(max_length=100, label="Nombres")

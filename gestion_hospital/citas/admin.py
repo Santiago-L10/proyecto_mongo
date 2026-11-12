@@ -3,8 +3,6 @@ from .models import HorarioMedico, Cita
 
 
 class ConsultaAgendaAdmin(admin.ModelAdmin):
-    # Los formularios del módulo aplican las reglas y el bloqueo de agenda.
-    # El admin queda disponible para consulta, sin una vía de escritura paralela.
     def has_add_permission(self, request):
         return False
 

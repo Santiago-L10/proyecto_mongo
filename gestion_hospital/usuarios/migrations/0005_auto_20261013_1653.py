@@ -9,9 +9,7 @@ class Migration(migrations.Migration):
         ('usuarios', '0004_remove_user_id_user'),
     ]
 
-    # djongo no soporta "ALTER COLUMN ... TYPE". Como Mongo no tiene esquema
-    # fijo, basta con actualizar el estado de Django y no tocar la base:
-    # los documentos nuevos ya guardarán el correo como texto.
+
     operations = [
         migrations.SeparateDatabaseAndState(
             state_operations=[

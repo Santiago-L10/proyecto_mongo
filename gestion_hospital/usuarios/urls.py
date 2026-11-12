@@ -19,10 +19,10 @@ urlpatterns = [
     path("logout/", logout_sesion, name="logout_sesion"),
     path("", panel_home, name="panel_home"),
     path("logs/", log_lista, name="log_lista"),
-    # Perfiles / roles
+
     path("perfiles/", perfil_lista, name="perfil_lista"),
     path("perfiles/<str:perfil_id>/editar/", perfil_editar, name="perfil_editar"),
-    # Usuarios
+
     path("usuarios/", usuario_lista, name="usuario_lista"),
     path("usuarios/crear/", usuario_crear, name="usuario_crear"),
     path(

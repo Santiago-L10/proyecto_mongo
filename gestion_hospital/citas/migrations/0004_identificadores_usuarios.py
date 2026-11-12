@@ -19,9 +19,6 @@ def normalizar_usuarios(apps, schema_editor):
             raise RuntimeError('Hay identificadores de usuario duplicados. Revisa los usuarios antes de continuar.')
         usados.add(clave)
         cambios.append((documento['email'], clave))
-    # Se consulta por correo único porque los documentos antiguos no tienen id.
-    # Los IDs numéricos válidos conservan su representación textual, de modo
-    # que las referencias string de los otros módulos siguen siendo iguales.
     for correo, clave in cambios:
         usuarios.filter(email=correo).update(id=clave)
     with schema_editor.connection.cursor() as cursor:

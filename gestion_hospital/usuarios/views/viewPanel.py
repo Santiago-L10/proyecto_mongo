@@ -4,7 +4,6 @@ from .. import models
 from ..acceso import MODULOS_POR_ROL
 
 
-#Mostrar el panel principal del administrador.
 def panel_home(request):
     contexto = {
         "total_perfiles": models.Perfil.objects.count(),

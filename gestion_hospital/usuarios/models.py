@@ -102,7 +102,6 @@ class RefreshToken(models.Model):
 
 class Log(models.Model):
 
-    #Correo del usuario que realizó la acción (es único).
     user_id = models.CharField(max_length=254)
     action = models.CharField(max_length=100)
     date = models.DateTimeField()

@@ -1,5 +1,3 @@
-# Alineación del estado de Django con los documentos de MongoDB.
-
 import citas.models
 from django.db import migrations, models
 import djongo.models.fields
@@ -19,8 +17,6 @@ class Migration(migrations.Migration):
         ('citas', '0001_initial'),
     ]
 
-    # MongoDB no necesita ALTER COLUMN TYPE, que Djongo no implementa.
-    # Los cambios de validación y defaults se aplican en el ORM.
     operations = [migrations.SeparateDatabaseAndState(state_operations=[
         migrations.AlterField(
             model_name='cita',

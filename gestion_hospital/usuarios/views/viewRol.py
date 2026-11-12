@@ -8,13 +8,12 @@ from ..forms.formRol import PerfilForm
 from .viewComunes import paramToId, perfiles_con_modulos
 
 
-#Listar los perfiles (roles) con sus modulos.
+
 def perfil_lista(request):
     perfiles = perfiles_con_modulos(models.Perfil.objects.all())
     return render(request, "usuarios/perfiles/lista.html", {"perfiles": perfiles})
 
 
-#Editar el nombre y la descripcion de un perfil (rol).
 def perfil_editar(request, perfil_id):
     perfil = get_object_or_404(models.Perfil, id=paramToId(perfil_id))
     if request.method == "POST":

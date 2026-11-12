@@ -3,7 +3,6 @@ from django import forms
 from .. import models
 
 
-#djongo no soporta filtrar por BooleanField, así que se filtra en Python.
 def _perfiles_activos():
     activos = []
     for perfil in models.Perfil.objects.all():
@@ -21,7 +20,6 @@ class PerfilForm(forms.ModelForm):
         }
 
 
-#Paso 1: elegir el rol del usuario que se va a registrar.
 class SeleccionRolForm(forms.Form):
 
     rol = forms.ChoiceField(label="Rol")

@@ -23,8 +23,6 @@ TRANSICIONES = {
 
 @contextmanager
 def escritura_agenda():
-    # La restricción UNIQUE se crea con migrate. No usar transaction.atomic:
-    # este backend no ofrece transacciones MongoDB para múltiples documentos.
     token = uuid4().hex
     try:
         BloqueoAgenda.objects.create(clave='agenda', token=token)
@@ -42,7 +40,6 @@ def escritura_agenda():
 
 
 def usuarios_activos(rol):
-    # Los filtros de subdocumentos varían entre versiones de Djongo.
     return [u for u in User.objects.filter(activo='SI').order_by('first_name', 'last_name')
             if (u.rol or {}).get('nombre') == rol]
 
@@ -63,8 +60,6 @@ def snapshot_doctor(usuario):
 
 
 def snapshot_paciente(usuario):
-    # El modelo User del equipo no tiene documento de identidad. id_user
-    # conserva la referencia al ID de usuario, sin inventar una cédula.
     return {'id': str(usuario.pk), 'id_user': str(usuario.pk),
             'nombre_completo': f'{usuario.first_name} {usuario.last_name}',
             'telefono': usuario.telefono or ''}
